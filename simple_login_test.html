@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .form-group { margin: 10px 0; }
+        input { padding: 10px; width: 200px; }
+        button { padding: 10px 20px; margin: 5px; }
+        .error { color: red; }
+        .success { color: green; }
+    </style>
+</head>
+<body>
+    <h1>OMCN E-Kitap Login Test</h1>
+    
+    <div id="status"></div>
+    
+    <form id="test-login-form">
+        <div class="form-group">
+            <label>Email:</label><br>
+            <input type="email" id="email" value="omeratalamiscan321@gmail.com" required>
+        </div>
+        <div class="form-group">
+            <label>Şifre:</label><br>
+            <input type="password" id="password" value="123456" required>
+        </div>
+        <button type="submit">Giriş Yap</button>
+    </form>
+    
+    <hr>
+    
+    <form id="test-register-form">
+        <h3>Kayıt Ol Test</h3>
+        <div class="form-group">
+            <label>Ad:</label><br>
+            <input type="text" id="reg-name" value="Test User" required>
+        </div>
+        <div class="form-group">
+            <label>Email:</label><br>
+            <input type="email" id="reg-email" value="test@example.com" required>
+        </div>
+        <div class="form-group">
+            <label>Şifre:</label><br>
+            <input type="password" id="reg-password" value="123456" required>
+        </div>
+        <button type="submit">Kayıt Ol</button>
+    </form>
+    
+    <button onclick="checkAuth()">Auth Durumunu Kontrol Et</button>
+    <button onclick="logout()">Çıkış Yap</button>
+    
+    <script>
+        function updateStatus(message, isError = false) {
+            const status = document.getElementById('status');
+            status.innerHTML = `<div class="${isError ? 'error' : 'success'}">${message}</div>`;
+        }
+        
+        // Login test
+        document.getElementById('test-login-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            try {
+                const response = await fetch('auth.php?action=login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    updateStatus(`✅ Login başarılı! Hoşgeldin ${result.user.name}`);
+                } else {
+                    updateStatus(`❌ Login hatası: ${result.error}`, true);
+                }
+            } catch (error) {
+                updateStatus(`❌ Bağlantı hatası: ${error.message}`, true);
+            }
+        });
+        
+        // Register test
+        document.getElementById('test-register-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('reg-name').value;
+            const email = document.getElementById('reg-email').value;
+            const password = document.getElementById('reg-password').value;
+            
+            try {
+                const response = await fetch('auth.php?action=register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ 
+                        name, 
+                        email, 
+                        password, 
+                        confirmPassword: password 
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    updateStatus(`✅ Kayıt başarılı! Hoşgeldin ${result.user.name}`);
+                } else {
+                    updateStatus(`❌ Kayıt hatası: ${result.error}`, true);
+                }
+            } catch (error) {
+                updateStatus(`❌ Bağlantı hatası: ${error.message}`, true);
+            }
+        });
+        
+        // Auth check
+        async function checkAuth() {
+            try {
+                const response = await fetch('auth.php?action=check');
+                const result = await response.json();
+                
+                if (result.authenticated) {
+                    updateStatus(`✅ Giriş yapılmış: ${result.user.name} (${result.user.email})`);
+                } else {
+                    updateStatus(`❌ Giriş yapılmamış`);
+                }
+            } catch (error) {
+                updateStatus(`❌ Auth check hatası: ${error.message}`, true);
+            }
+        }
+        
+        // Logout
+        async function logout() {
+            try {
+                const response = await fetch('auth.php?action=logout', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({})
+                });
+                
+                const result = await response.json();
+                updateStatus(`✅ Çıkış yapıldı`);
+            } catch (error) {
+                updateStatus(`❌ Logout hatası: ${error.message}`, true);
+            }
+        }
+        
+        // Sayfa yüklendiğinde auth durumunu kontrol et
+        window.addEventListener('load', checkAuth);
+    </script>
+</body>
+</html> 

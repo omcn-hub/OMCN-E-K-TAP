@@ -1,0 +1,569 @@
+/**
+ * OMCN E-Kitap AI Öneri Sistemi ve Akıllı Arama CSS
+ * Modern ve Responsive Tasarım
+ */
+
+/* Ana Container */
+.omcn-search-widget {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Arama Header */
+.search-header {
+    margin-bottom: 20px;
+}
+
+.search-input-group {
+    display: flex;
+    margin-bottom: 15px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    overflow: hidden;
+    background: white;
+}
+
+.search-input {
+    flex: 1;
+    padding: 16px 20px;
+    border: none;
+    font-size: 16px;
+    outline: none;
+    background: transparent;
+}
+
+.search-input::placeholder {
+    color: #999;
+    font-style: italic;
+}
+
+.search-button {
+    padding: 16px 24px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.search-button:hover {
+    background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
+    transform: translateY(-1px);
+}
+
+.search-button i {
+    font-size: 18px;
+}
+
+/* Arama Seçenekleri */
+.search-options {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.toggle-switch {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+}
+
+.toggle-switch input[type="checkbox"] {
+    display: none;
+}
+
+.toggle-slider {
+    position: relative;
+    width: 50px;
+    height: 24px;
+    background: #ccc;
+    border-radius: 12px;
+    transition: background 0.3s ease;
+    margin-right: 10px;
+}
+
+.toggle-slider::before {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 20px;
+    height: 20px;
+    background: white;
+    border-radius: 50%;
+    transition: transform 0.3s ease;
+}
+
+.toggle-switch input[type="checkbox"]:checked + .toggle-slider {
+    background: #667eea;
+}
+
+.toggle-switch input[type="checkbox"]:checked + .toggle-slider::before {
+    transform: translateX(26px);
+}
+
+.toggle-label {
+    font-size: 14px;
+    color: #555;
+    font-weight: 500;
+}
+
+/* Algılanan Filtreler */
+.detected-filters {
+    background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%);
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-left: 4px solid #667eea;
+}
+
+.filters-header {
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.filters-content {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.filter-tag {
+    background: white;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    color: #555;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e0e0e0;
+}
+
+/* AI Badge */
+.ai-badge {
+    background: linear-gradient(135deg, #ff6b6b 0%, #feca57 100%);
+    color: white;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+    margin-left: 10px;
+}
+
+/* Loading ve Error */
+.loading {
+    text-align: center;
+    padding: 40px;
+    color: #666;
+    font-style: italic;
+}
+
+.error {
+    background: #ffebee;
+    color: #c62828;
+    padding: 15px;
+    border-radius: 8px;
+    margin: 20px 0;
+    border-left: 4px solid #c62828;
+}
+
+.no-results {
+    text-align: center;
+    padding: 40px;
+    color: #666;
+    background: #f5f5f5;
+    border-radius: 10px;
+    margin: 20px 0;
+}
+
+/* Sonuçlar Header */
+.results-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #f0f0f0;
+}
+
+.results-header h3 {
+    margin: 0;
+    color: #333;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+/* Kitap Grid */
+.books-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 24px;
+    margin-bottom: 40px;
+}
+
+.book-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-bottom: 20px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.card-content {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.book-thumbnail {
+    flex-shrink: 0;
+}
+
+.book-thumbnail img {
+    width: 140px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.book-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.book-title {
+    font-size: 20px;
+    font-weight: bold;
+    color: #1a202c;
+    margin-bottom: 8px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.book-author {
+    font-size: 14px;
+    color: #4a5568;
+    margin-bottom: 8px;
+}
+
+.book-desc {
+    font-size: 14px;
+    color: #2d3748;
+    margin-bottom: 16px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.book-actions {
+    display: flex;
+    gap: 12px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.secondary-actions {
+    border-top: none;
+    padding-top: 8px;
+}
+
+.action-btn {
+    flex: 1;
+    min-width: 120px;
+    height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 0 16px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.action-btn i {
+    font-size: 16px;
+}
+
+.save-btn {
+    background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+}
+
+.chat-btn {
+    background: linear-gradient(135deg, #8B5CF6 0%, #6D28D9 100%);
+}
+
+.remove-btn {
+    background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%);
+}
+
+.read-btn {
+    background: linear-gradient(135deg, #6366F1 0%, #4F46E5 100%);
+}
+
+.preview-btn {
+    background: linear-gradient(135deg, #EC4899 0%, #BE185D 100%);
+}
+
+.action-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.action-btn:active {
+    transform: translateY(0);
+}
+
+/* Öneriler Bölümü */
+.recommendations-section {
+    margin-top: 40px;
+    padding-top: 30px;
+    border-top: 2px solid #f0f0f0;
+}
+
+.recommendations-section h3 {
+    color: #333;
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.recommendations-section h3::before {
+    content: '🤖';
+    margin-right: 10px;
+    font-size: 28px;
+}
+
+.recommendations-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.recommendation-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+    overflow: hidden;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.recommendation-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    border-color: #667eea;
+}
+
+.rec-thumbnail {
+    height: 140px;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.rec-thumbnail img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+}
+
+.rec-info {
+    padding: 15px;
+}
+
+.rec-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+    margin: 0 0 6px 0;
+    line-height: 1.3;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.rec-authors {
+    color: #666;
+    font-size: 12px;
+    margin: 0 0 8px 0;
+}
+
+.rec-reason {
+    background: #e3f2fd;
+    color: #1976d2;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 500;
+    margin-bottom: 8px;
+    text-align: center;
+}
+
+.confidence-score {
+    text-align: center;
+    font-size: 11px;
+    color: #888;
+    background: #f8f9fa;
+    padding: 4px;
+    border-radius: 4px;
+}
+
+.no-recommendations {
+    text-align: center;
+    padding: 40px;
+    color: #666;
+    background: #f5f5f5;
+    border-radius: 10px;
+    font-style: italic;
+}
+
+/* Responsive Tasarım */
+@media (max-width: 768px) {
+    .omcn-search-widget {
+        padding: 15px;
+    }
+    
+    .search-input-group {
+        flex-direction: column;
+    }
+    
+    .search-button {
+        border-radius: 0 0 12px 12px;
+    }
+    
+    .books-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 16px;
+    }
+    
+    .recommendations-grid {
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        gap: 16px;
+    }
+    
+    .results-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    .search-options {
+        justify-content: flex-start;
+    }
+}
+
+@media (max-width: 480px) {
+    .books-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .recommendations-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .book-actions {
+        flex-direction: column;
+    }
+    
+    .book-actions button {
+        flex: none;
+    }
+}
+
+@media (max-width: 640px) {
+    .card-content {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    
+    .book-thumbnail {
+        margin-bottom: 16px;
+    }
+    
+    .book-actions {
+        flex-direction: column;
+    }
+    
+    .action-btn {
+        width: 100%;
+    }
+}
+
+/* Animasyonlar */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.book-card, .recommendation-card {
+    animation: fadeInUp 0.5s ease-out;
+}
+
+/* Gelişmiş Gölge Efektleri */
+.search-input-group:focus-within {
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.15);
+    transform: translateY(-1px);
+}
+
+/* Özel Scrollbar */
+.omcn-search-widget::-webkit-scrollbar {
+    width: 8px;
+}
+
+.omcn-search-widget::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.omcn-search-widget::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 4px;
+}
+
+.omcn-search-widget::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
+}
+
+/* Print Styles */
+@media print {
+    .book-actions,
+    .search-header,
+    .recommendations-section {
+        display: none;
+    }
+    
+    .book-card {
+        break-inside: avoid;
+        box-shadow: none;
+        border: 1px solid #ccc;
+    }
+} 
