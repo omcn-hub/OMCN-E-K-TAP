@@ -1,0 +1,3355 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>OMCN HUB - E-Kitap Platformu</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <!-- AI Arama ve Öneri Sistemi -->
+  <link rel="stylesheet" href="ai-smart-search.css">
+  <script src="api-manager.js"></script>
+  <script src="ai-smart-search.js"></script>
+  <script src="main.js"></script>
+  <script src="index.js"></script>
+  <style>
+    :root {
+      --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      --secondary-gradient: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+      --success-gradient: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);
+      --warning-gradient: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+      --accent-gradient: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+      --glass-bg: rgba(255, 255, 255, 0.25);
+      --glass-border: rgba(255, 255, 255, 0.3);
+      --glass-strong-bg: rgba(255, 255, 255, 0.2);
+      --text-primary: #1a202c;
+      --text-secondary: #2d3748;
+      --text-light: #ffffff;
+      --text-muted: rgba(255, 255, 255, 0.85);
+      --text-dark: #ffffff;
+      --text-card: #2d3748;
+      --shadow-text: 0 2px 4px rgba(0,0,0,0.3);
+      /* Güçlü Yazı Renkleri */
+      --text-primary-strong: #1a202c;
+      --text-secondary-strong: #2d3748;
+      --text-white-strong: #ffffff;
+      --text-dark-strong: #000000;
+      
+      /* Güçlü Gölge Değerleri */
+      --shadow-strong: 0 3px 6px rgba(0,0,0,0.8);
+      --shadow-extra-strong: 0 4px 8px rgba(0,0,0,0.9);
+      --shadow-white: 0 2px 4px rgba(255,255,255,0.3);
+    }
+    
+    body { 
+      font-family: 'Poppins', sans-serif; 
+      background: linear-gradient(-45deg, #667eea, #764ba2, #a8edea, #fed6e3);
+      background-size: 400% 400%;
+      animation: gradientBG 20s ease infinite;
+      min-height: 100vh;
+    }
+    
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    
+    .line-clamp-3 {
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    
+    /* Glassmorphism Effect */
+    .glass {
+      background: var(--glass-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--glass-border);
+      box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
+    }
+    
+    .glass-strong {
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 8px 32px rgba(31, 38, 135, 0.2);
+    }
+    
+    /* Modal için özel stil */
+    .modal-glass {
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    }
+    
+    /* Modal içeriği için okunabilir metin renkleri */
+    .modal-text-primary {
+      color: #ffffff !important;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+    }
+    
+    .modal-text-secondary {
+      color: rgba(255, 255, 255, 0.85) !important;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    }
+    
+    .modal-text-muted {
+      color: rgba(255, 255, 255, 0.65) !important;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    }
+    
+    /* Modern Button Styles */
+    .btn-gradient-primary {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+      color: var(--text-white-strong) !important;
+      text-shadow: var(--shadow-strong) !important;
+      font-weight: 700 !important;
+      box-shadow: 0 8px 32px rgba(102, 126, 234, 0.37);
+      transition: all 0.3s ease;
+    }
+    
+    .btn-gradient-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 40px rgba(102, 126, 234, 0.5);
+    }
+    
+    .btn-gradient-secondary {
+      background: var(--secondary-gradient);
+      box-shadow: 0 8px 32px rgba(240, 147, 251, 0.37);
+      transition: all 0.3s ease;
+    }
+    
+    .btn-gradient-secondary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 40px rgba(240, 147, 251, 0.5);
+    }
+    
+    .btn-gradient-success {
+      background: var(--success-gradient);
+      box-shadow: 0 8px 32px rgba(79, 172, 254, 0.37);
+      transition: all 0.3s ease;
+    }
+    
+    .btn-gradient-success:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 40px rgba(79, 172, 254, 0.5);
+    }
+    
+    /* Modern Card Styles */
+    .modern-card {
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      color: var(--text-card);
+    }
+    
+    .modern-card:hover {
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 20px 60px rgba(31, 38, 135, 0.25);
+      background: rgba(255, 255, 255, 0.95);
+    }
+    
+    /* Floating Animation */
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+    }
+    
+    .floating {
+      animation: float 3s ease-in-out infinite;
+    }
+    
+    /* Pulse Animation */
+    @keyframes pulse-glow {
+      0%, 100% { box-shadow: 0 0 20px rgba(102, 126, 234, 0.4); }
+      50% { box-shadow: 0 0 40px rgba(102, 126, 234, 0.8); }
+    }
+    
+    .pulse-glow {
+      animation: pulse-glow 2s ease-in-out infinite;
+    }
+    
+    /* Modern Input Styles */
+    .modern-input {
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      color: var(--text-primary);
+    }
+    
+    .modern-input:focus {
+      background: rgba(255, 255, 255, 0.95);
+      border-color: #667eea;
+      box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.15);
+      transform: translateY(-1px);
+    }
+    
+    .modern-input::placeholder {
+      color: var(--text-secondary);
+      opacity: 0.7;
+    }
+    
+    /* Category Button Modern Style */
+    .category-modern {
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      color: var(--text-white-strong) !important;
+      text-shadow: var(--shadow-strong) !important;
+      font-weight: 700 !important;
+    }
+    
+    .category-modern:hover {
+      transform: translateY(-2px);
+      background: var(--secondary-gradient);
+      color: var(--text-primary);
+      box-shadow: 0 8px 25px rgba(168, 237, 234, 0.3);
+      border-color: rgba(255, 255, 255, 0.4);
+    }
+    
+    .category-active {
+      background: var(--primary-gradient);
+      color: white;
+      box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+      border-color: rgba(255, 255, 255, 0.4);
+    }
+    
+    /* Hero Section */
+    .hero-gradient {
+      background: linear-gradient(135deg, rgba(102, 126, 234, 0.9) 0%, rgba(118, 75, 162, 0.9) 100%);
+    }
+    
+    /* === YENİ PROFESYONEL KİTAP KARTI TASARIMI === */
+    .books-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+      padding: 1.5rem;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .book-card {
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      border: 1px solid rgba(226, 232, 240, 0.8);
+    }
+
+    .book-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 20px rgba(0,0,0,0.15);
+    }
+
+    .card-content {
+      display: flex;
+      padding: 1.25rem;
+      gap: 1.25rem;
+      flex: 1;
+    }
+
+    .book-thumbnail {
+      flex-shrink: 0;
+      width: 100px;
+    }
+
+    .book-thumbnail img {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 6px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .book-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .book-title {
+      font-size: 1.125rem;
+      font-weight: 700;
+      color: #1a202c;
+      margin-bottom: 0.5rem;
+      line-height: 1.4;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
+
+    .book-author {
+      font-size: 0.875rem;
+      color: #4a5568;
+      margin-bottom: 0.75rem;
+      font-weight: 500;
+    }
+
+    .book-desc {
+      font-size: 0.875rem;
+      color: #718096;
+      line-height: 1.5;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+    }
+
+    /* === BUTON GRUBU YENİ TASARIM === */
+    .button-container {
+      padding: 0.75rem 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      border-top: 1px solid rgba(226, 232, 240, 0.8);
+      background: rgba(247, 250, 252, 0.5);
+      overflow: hidden;
+    }
+
+    .primary-actions,
+    .secondary-actions {
+      display: flex;
+      gap: 0.375rem;
+      flex-wrap: wrap;
+      overflow: hidden;
+    }
+
+    .action-btn {
+      flex: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.375rem;
+      padding: 0.5rem 0.75rem;
+      font-size: 0.8125rem;
+      font-weight: 600;
+      border-radius: 6px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+      color: white;
+      min-width: 80px;
+      height: 36px;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+
+    .action-btn i {
+      font-size: 0.8125rem;
+    }
+
+    /* Buton stilleri */
+    .save-btn {
+      background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+    }
+
+    .chat-btn {
+      background: linear-gradient(135deg, #6366F1 0%, #4F46E5 100%);
+    }
+
+    .remove-btn {
+      background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%);
+    }
+
+    .read-btn {
+      background: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%);
+    }
+
+    .preview-btn {
+      background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+    }
+
+    .search-btn {
+      background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
+    }
+
+    .action-btn:hover {
+      filter: brightness(110%);
+      transform: translateY(-1px);
+    }
+
+    /* Mobil düzenlemeler */
+    @media (max-width: 768px) {
+      .button-container {
+        padding: 0.625rem 0.875rem;
+      }
+
+      .action-btn {
+        height: 34px;
+        font-size: 0.75rem;
+        padding: 0.375rem 0.5rem;
+        min-width: 70px;
+      }
+
+      .action-btn i {
+        font-size: 0.75rem;
+      }
+
+      .action-btn span {
+        font-size: 0.7rem;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .primary-actions,
+      .secondary-actions {
+        justify-content: center;
+      }
+
+      .action-btn {
+        min-width: 60px;
+        font-size: 0.7rem;
+        padding: 0.375rem 0.375rem;
+      }
+
+      .action-btn span {
+        display: none;
+      }
+
+      .action-btn i {
+        font-size: 0.875rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .books-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .primary-actions,
+      .secondary-actions {
+        flex-direction: row;
+        justify-content: space-between;
+      }
+
+      .action-btn {
+        width: auto;
+        flex: 1;
+        min-width: 50px;
+        max-width: 60px;
+      }
+    }
+
+    .books-grid .book-thumbnail {
+      display: flex !important;
+      justify-content: center !important;
+      margin-bottom: 1rem !important;
+    }
+    
+    .books-grid .book-thumbnail img {
+      width: 80px !important;
+      height: 120px !important;
+      object-fit: cover !important;
+      border-radius: 8px !important;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+    }
+    
+    .books-grid .book-info {
+      text-align: center !important;
+      flex-grow: 1 !important;
+    }
+    
+    .books-grid .book-title {
+      font-size: 1rem !important;
+      font-weight: 700 !important;
+      color: #1a202c !important;
+      margin-bottom: 0.5rem !important;
+      line-height: 1.4 !important;
+      display: -webkit-box !important;
+      -webkit-line-clamp: 2 !important;
+      -webkit-box-orient: vertical !important;
+      overflow: hidden !important;
+      min-height: 2.8rem !important;
+    }
+    
+    .books-grid .book-author {
+      font-size: 0.85rem !important;
+      color: #4a5568 !important;
+      font-weight: 500 !important;
+      margin-bottom: 0.75rem !important;
+      display: -webkit-box !important;
+      -webkit-line-clamp: 1 !important;
+      -webkit-box-orient: vertical !important;
+      overflow: hidden !important;
+    }
+    
+    .books-grid .book-desc {
+      font-size: 0.8rem !important;
+      color: #718096 !important;
+      line-height: 1.5 !important;
+      display: -webkit-box !important;
+      -webkit-line-clamp: 3 !important;
+      -webkit-box-orient: vertical !important;
+      overflow: hidden !important;
+      margin-bottom: 1rem !important;
+    }
+    
+    .books-grid .book-actions {
+      display: flex !important;
+      gap: 0.5rem !important;
+      justify-content: center !important;
+      align-items: stretch !important;
+    }
+    
+    .books-grid .action-btn {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 0.4rem !important;
+      padding: 0.6rem 1rem !important;
+      font-size: 0.8rem !important;
+      font-weight: 600 !important;
+      border-radius: 8px !important;
+      border: none !important;
+      cursor: pointer !important;
+      transition: all 0.3s ease !important;
+      text-decoration: none !important;
+      color: white !important;
+      flex: 1 !important;
+      min-width: 130px !important;
+      height: 44px !important;
+      white-space: nowrap !important;
+      box-sizing: border-box !important;
+    }
+    
+    .books-grid .save-btn {
+      background: #10b981 !important;
+    }
+    
+    .books-grid .save-btn:hover {
+      background: #059669 !important;
+    }
+    
+    .books-grid .chat-btn {
+      background: #6366f1 !important;
+    }
+    
+    .books-grid .chat-btn:hover {
+      background: #4f46e5 !important;
+    }
+    
+    .books-grid .remove-btn {
+      background: #ef4444 !important;
+    }
+    
+    .books-grid .remove-btn:hover {
+      background: #dc2626 !important;
+    }
+    
+    .books-grid .secondary-actions {
+      margin-top: 0.75rem !important;
+      padding-top: 0.75rem !important;
+      border-top: 1px solid #e2e8f0 !important;
+    }
+    
+    .books-grid .secondary-actions .action-btn {
+      flex: 1 !important;
+      min-width: 130px !important;
+      height: 44px !important;
+    }
+
+    /* Mobil Uyumluluk */
+    @media (max-width: 600px) {
+      .books-grid .book-card {
+        padding: 1.25rem !important;
+      }
+      
+      .books-grid .book-thumbnail img {
+        width: 70px !important;
+        height: 105px !important;
+      }
+      
+      .books-grid .book-title {
+        font-size: 0.95rem !important;
+      }
+      
+      .books-grid .book-author {
+        font-size: 0.8rem !important;
+      }
+      
+      .books-grid .book-desc {
+        font-size: 0.75rem !important;
+        -webkit-line-clamp: 2 !important;
+      }
+      
+      .books-grid .action-btn {
+        font-size: 0.75rem !important;
+        padding: 0.5rem 0.8rem !important;
+      }
+      
+      .books-grid .book-actions,
+      .books-grid .secondary-actions {
+        flex-direction: column !important;
+        gap: 0.5rem !important;
+      }
+      
+      .books-grid .action-btn {
+        width: 100% !important;
+        min-width: unset !important;
+        flex: none !important;
+      }
+    }
+
+    /* Modern Action Button Styles - Force Apply */
+    .modern-action-btn, 
+    button.modern-action-btn,
+    a.modern-action-btn {
+      position: relative !important;
+      overflow: hidden !important;
+      backdrop-filter: blur(8px) !important;
+      -webkit-backdrop-filter: blur(8px) !important;
+      border: 1px solid rgba(255, 255, 255, 0.2) !important;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15) !important;
+      font-weight: 700 !important;
+      letter-spacing: 0.5px !important;
+      text-transform: uppercase !important;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+      border-radius: 12px !important;
+      padding: 12px 16px !important;
+      font-size: 12px !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 6px !important;
+      text-decoration: none !important;
+      min-height: 44px !important;
+    }
+    
+    .modern-action-btn:hover, 
+    button.modern-action-btn:hover,
+    a.modern-action-btn:hover {
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25) !important;
+      border-color: rgba(255, 255, 255, 0.3) !important;
+      transform: scale(1.05) !important;
+    }
+    
+    .modern-action-btn:active {
+      transform: scale(0.98) !important;
+    }
+    
+    .modern-action-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+      transition: left 0.5s;
+    }
+    
+    .modern-action-btn:hover::before {
+      left: 100%;
+    }
+    
+         /* Button Grid Layout Override */
+     .modern-card .grid {
+       display: grid !important;
+       grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)) !important;
+       gap: 12px !important;
+       margin-bottom: 16px !important;
+     }
+     
+     .modern-card .flex {
+       display: flex !important;
+       flex-wrap: wrap !important;
+       gap: 12px !important;
+       margin-top: auto !important;
+     }
+     
+     .modern-card .flex-1 {
+       flex: 1 !important;
+       min-width: 0 !important;
+     }
+     
+     /* Responsive Button Grid */
+     @media (max-width: 640px) {
+       .modern-action-btn {
+         font-size: 11px !important;
+         padding: 10px 12px !important;
+         min-height: 40px !important;
+       }
+       
+       .modern-card .grid {
+         grid-template-columns: 1fr !important;
+       }
+     }
+    
+    /* Improved Mobile Layout */
+    @media (max-width: 768px) {
+      .card-mobile-stack {
+        flex-direction: column;
+        gap: 16px;
+      }
+      
+      .mobile-padding {
+        padding: 16px;
+      }
+      
+      .mobile-title {
+        font-size: 20px;
+        line-height: 1.2;
+      }
+      
+      .text-readable {
+        color: #2d3748 !important;
+      }
+    }
+    
+    /* Force Modern Button Styles - Override Everything */
+    .save-btn, .chat-btn, .remove-btn, 
+    a.modern-action-btn, button.modern-action-btn {
+      background: linear-gradient(135deg, #10b981 0%, #14b8a6 100%) !important;
+      color: white !important;
+      border: 1px solid rgba(255, 255, 255, 0.3) !important;
+      border-radius: 12px !important;
+      padding: 12px 16px !important;
+      font-size: 12px !important;
+      font-weight: 700 !important;
+      text-transform: uppercase !important;
+      letter-spacing: 0.5px !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 6px !important;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15) !important;
+      transition: all 0.3s ease !important;
+      min-height: 44px !important;
+      text-decoration: none !important;
+      cursor: pointer !important;
+    }
+    
+    .save-btn:hover, .chat-btn:hover, .remove-btn:hover,
+    a.modern-action-btn:hover, button.modern-action-btn:hover {
+      transform: scale(1.05) !important;
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.25) !important;
+    }
+    
+             .chat-btn { background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%) !important; }
+    .remove-btn { background: linear-gradient(135deg, #ef4444 0%, #ec4899 100%) !important; }
+    .read-btn { background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%) !important; }
+    .preview-btn { background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%) !important; }
+    
+    /* Kaydedilmiş buton stilleri */
+    .saved-btn { 
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important; 
+      color: white !important;
+      cursor: not-allowed !important;
+      opacity: 0.8 !important;
+    }
+    
+    .saved-btn:hover {
+      transform: none !important;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15) !important;
+    }
+    
+    /* Kategori buton stilleri */
+    .category-btn {
+      transition: all 0.3s ease !important;
+      border: 2px solid transparent !important;
+    }
+    
+    .category-btn:hover {
+      transform: translateY(-2px) !important;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15) !important;
+    }
+    
+    .category-active {
+      background: linear-gradient(135deg, #8b5cf6 0%, #3b82f6 100%) !important;
+      border: 2px solid #8b5cf6 !important;
+      transform: translateY(-2px) !important;
+      box-shadow: 0 8px 25px rgba(139, 92, 246, 0.3) !important;
+    }
+
+    /* Sohbet Popup Stilleri */
+    .chat-popup-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      z-index: 9998;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .chat-popup-overlay.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .chat-popup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.8);
+      width: 90%;
+      max-width: 500px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 20px;
+      z-index: 9999;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .chat-popup.show {
+      opacity: 1;
+      visibility: visible;
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    .chat-popup-header {
+      padding: 20px 25px 15px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .chat-popup-title {
+      color: white;
+      font-size: 18px;
+      font-weight: bold;
+      margin: 0;
+    }
+
+    .chat-popup-close {
+      background: rgba(255, 255, 255, 0.1);
+      border: none;
+      color: white;
+      width: 35px;
+      height: 35px;
+      border-radius: 10px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+
+    .chat-popup-close:hover {
+      background: rgba(255, 0, 0, 0.3);
+      transform: scale(1.1);
+    }
+
+    .chat-popup-content {
+      padding: 25px;
+      color: #ffffff;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+    }
+    
+    .chat-popup-content p {
+      color: #ffffff !important;
+      font-weight: 600;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
+    }
+    
+    .chat-popup-content .flex.items-center span {
+      color: #ffffff !important;
+      font-weight: 600;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
+    }
+
+    .chat-popup-actions {
+      padding: 20px 25px 25px;
+      display: flex;
+      gap: 15px;
+    }
+
+    .chat-popup-actions .action-btn {
+      flex: 1;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .chat-popup-actions .chat-btn {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: white;
+    }
+
+         .chat-popup-actions .chat-btn:hover {
+       transform: translateY(-2px);
+       box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+     }
+
+     /* Modern Sohbet Modal Stilleri */
+     .chat-modal-overlay {
+       position: fixed;
+       top: 0;
+       left: 0;
+       width: 100%;
+       height: 100%;
+       background: rgba(0, 0, 0, 0.8);
+       z-index: 10000;
+       opacity: 0;
+       visibility: hidden;
+       transition: all 0.3s ease;
+       display: flex;
+       align-items: center;
+       justify-content: center;
+     }
+
+     .chat-modal-overlay.show {
+       opacity: 1;
+       visibility: visible;
+     }
+
+     .chat-modal {
+       width: 90%;
+       max-width: 500px;
+       height: 80vh;
+       max-height: 600px;
+       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+       border-radius: 20px;
+       border: 1px solid rgba(255, 255, 255, 0.2);
+       box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+       transform: scale(0.8);
+       transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+       display: flex;
+       flex-direction: column;
+       overflow: hidden;
+     }
+
+     .chat-modal-overlay.show .chat-modal {
+       transform: scale(1);
+     }
+
+     .chat-modal-header {
+       padding: 20px 25px;
+       border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+       display: flex;
+       justify-content: space-between;
+       align-items: center;
+       background: rgba(255, 255, 255, 0.1);
+     }
+
+     .chat-modal-title {
+       color: white;
+       font-size: 18px;
+       font-weight: bold;
+       margin: 0;
+     }
+
+     .chat-modal-close {
+       background: rgba(255, 255, 255, 0.1);
+       border: none;
+       color: white;
+       width: 35px;
+       height: 35px;
+       border-radius: 10px;
+       cursor: pointer;
+       display: flex;
+       align-items: center;
+       justify-content: center;
+       transition: all 0.3s ease;
+     }
+
+     .chat-modal-close:hover {
+       background: rgba(255, 0, 0, 0.3);
+       transform: scale(1.1);
+     }
+
+     .chat-modal-content {
+       flex: 1;
+       display: flex;
+       flex-direction: column;
+       overflow: hidden;
+     }
+
+     .chat-messages {
+       flex: 1;
+       padding: 20px;
+       overflow-y: auto;
+       display: flex;
+       flex-direction: column;
+       gap: 15px;
+       background: rgba(255, 255, 255, 0.05);
+     }
+
+     .user-message, .bot-message {
+       display: flex;
+       gap: 10px;
+       animation: slideIn 0.3s ease;
+     }
+
+     .bot-message {
+       align-self: flex-start;
+     }
+
+     .user-message {
+       align-self: flex-end;
+       flex-direction: row-reverse;
+     }
+
+     .message-avatar {
+       width: 35px;
+       height: 35px;
+       border-radius: 50%;
+       display: flex;
+       align-items: center;
+       justify-content: center;
+       font-size: 16px;
+       background: rgba(255, 255, 255, 0.2);
+       flex-shrink: 0;
+     }
+
+     .message-content {
+       max-width: 70%;
+       background: rgba(255, 255, 255, 0.15);
+       padding: 12px 16px;
+       border-radius: 15px;
+       color: #ffffff;
+       font-size: 14px;
+       font-weight: 600;
+       line-height: 1.4;
+       backdrop-filter: blur(10px);
+       border: 1px solid rgba(255, 255, 255, 0.1);
+       text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
+     }
+
+     .user-message .message-content {
+       background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+     }
+
+     .bot-message .message-content {
+       background: rgba(255, 255, 255, 0.25);
+       color: #ffffff;
+       font-weight: 600;
+     }
+
+     .message-content p {
+       margin: 0;
+       word-wrap: break-word;
+     }
+
+     .chat-input-area {
+       padding: 20px;
+       background: rgba(255, 255, 255, 0.1);
+       border-top: 1px solid rgba(255, 255, 255, 0.2);
+     }
+
+     .chat-input-container {
+       display: flex;
+       gap: 10px;
+       align-items: center;
+     }
+
+     #chat-input {
+       flex: 1;
+       padding: 12px 16px;
+       border: none;
+       border-radius: 25px;
+       background: rgba(255, 255, 255, 0.9);
+       color: #333;
+       font-size: 14px;
+       outline: none;
+       transition: all 0.3s ease;
+     }
+
+     #chat-input:focus {
+       background: white;
+       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+     }
+
+     #chat-input::placeholder {
+       color: #666;
+     }
+
+     #send-message {
+       width: 45px;
+       height: 45px;
+       border: none;
+       border-radius: 50%;
+       background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+       color: white;
+       cursor: pointer;
+       display: flex;
+       align-items: center;
+       justify-content: center;
+       transition: all 0.3s ease;
+     }
+
+     #send-message:hover {
+       transform: scale(1.1);
+       box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+     }
+
+     .typing-indicator {
+       display: flex;
+       gap: 4px;
+       margin-top: 8px;
+     }
+
+     .typing-indicator span {
+       width: 8px;
+       height: 8px;
+       border-radius: 50%;
+       background: rgba(255, 255, 255, 0.6);
+       animation: typing 1.4s infinite ease-in-out;
+     }
+
+     .typing-indicator span:nth-child(2) {
+       animation-delay: 0.2s;
+     }
+
+     .typing-indicator span:nth-child(3) {
+       animation-delay: 0.4s;
+     }
+
+     @keyframes slideIn {
+       from {
+         opacity: 0;
+         transform: translateY(20px);
+       }
+       to {
+         opacity: 1;
+         transform: translateY(0);
+       }
+     }
+
+     @keyframes typing {
+       0%, 60%, 100% {
+         transform: translateY(0);
+       }
+       30% {
+         transform: translateY(-10px);
+       }
+     }
+    
+    /* Modern Premium Dropdown Styles */
+    .premium-search-container {
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .border-animation {
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      background: linear-gradient(45deg, 
+        #8b5cf6, #3b82f6, #06b6d4, #10b981, 
+        #f59e0b, #ef4444, #ec4899, #8b5cf6);
+      background-size: 400% 400%;
+      border-radius: 18px;
+      animation: borderGlow 6s ease-in-out infinite;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: -1;
+    }
+    
+    .premium-search-container:hover .border-animation,
+    .premium-search-input:focus + .border-animation {
+      opacity: 0.6;
+    }
+    
+    @keyframes borderGlow {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+    
+    .premium-search-input:focus {
+      border-color: rgba(139, 92, 246, 0.5) !important;
+      box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.1), 
+                  0 0 20px rgba(139, 92, 246, 0.2) !important;
+      transform: translateY(-2px);
+    }
+    
+    .premium-search-btn:hover {
+      box-shadow: 0 8px 25px rgba(139, 92, 246, 0.4) !important;
+    }
+    
+    /* Premium Dropdown Styles */
+    .premium-dropdown-btn {
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .premium-dropdown-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, 
+        transparent, 
+        rgba(255, 255, 255, 0.1), 
+        transparent);
+      transition: left 0.5s ease;
+    }
+    
+    .premium-dropdown-btn:hover::before {
+      left: 100%;
+    }
+    
+    .premium-dropdown-container:hover .premium-dropdown-menu {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+    
+    .dropdown-option:hover {
+      background: linear-gradient(90deg, 
+        rgba(139, 92, 246, 0.1), 
+        rgba(139, 92, 246, 0.05)) !important;
+      transform: translateX(4px);
+    }
+    
+    .dropdown-option.selected {
+      background: linear-gradient(90deg, 
+        rgba(139, 92, 246, 0.2), 
+        rgba(59, 130, 246, 0.1)) !important;
+      border-left: 3px solid #8b5cf6;
+    }
+    
+    /* Modern Category Buttons */
+    .category-btn {
+      position: relative;
+      overflow: hidden;
+      backdrop-filter: blur(10px) !important;
+      border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    }
+    
+    .category-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, 
+        transparent, 
+        rgba(255, 255, 255, 0.1), 
+        transparent);
+      transition: left 0.5s ease;
+    }
+    
+    .category-btn:hover::before {
+      left: 100%;
+    }
+    
+    .category-btn:hover {
+      transform: translateY(-3px) scale(1.02) !important;
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2) !important;
+      border-color: rgba(139, 92, 246, 0.3) !important;
+    }
+    
+    /* Glow Effects */
+    @keyframes pulseGlow {
+      0%, 100% { 
+        box-shadow: 0 0 5px rgba(139, 92, 246, 0.3),
+                    0 0 10px rgba(139, 92, 246, 0.2),
+                    0 0 15px rgba(139, 92, 246, 0.1);
+      }
+      50% { 
+        box-shadow: 0 0 10px rgba(139, 92, 246, 0.4),
+                    0 0 20px rgba(139, 92, 246, 0.3),
+                    0 0 30px rgba(139, 92, 246, 0.2);
+      }
+    }
+    
+    .premium-search-input:focus,
+    .premium-dropdown-btn:hover {
+      animation: pulseGlow 2s ease-in-out infinite;
+    }
+    
+    /* Mobile Responsiveness */
+    @media (max-width: 768px) {
+      .premium-dropdown-btn {
+        min-width: 120px !important;
+        width: 100% !important;
+        font-size: 13px !important;
+        padding: 0 12px !important;
+        margin-bottom: 8px !important;
+      }
+      
+      .premium-dropdown-menu {
+        min-width: 120px !important;
+        left: 0 !important;
+        right: 0;
+        width: 100% !important;
+      }
+      
+      .premium-search-input {
+        font-size: 16px !important;
+      }
+      
+      .flex.flex-wrap.gap-3 {
+        flex-direction: column !important;
+        gap: 8px !important;
+      }
+      
+      /* Dropdown container grid on mobile */
+      .flex.flex-wrap {
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 8px !important;
+      }
+      
+      .premium-dropdown-container {
+        width: 100% !important;
+      }
+    }
+    
+    /* Disabled button styles */
+    .action-btn.disabled, 
+    .action-btn:disabled {
+      background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%) !important;
+      color: #9ca3af !important;
+      cursor: not-allowed !important;
+      opacity: 0.6 !important;
+    }
+    
+    .action-btn.disabled:hover, 
+    .action-btn:disabled:hover {
+      transform: none !important;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15) !important;
+    }
+     
+     /* Button Container Layout Fix */
+     .modern-card .grid {
+       display: grid !important;
+       grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)) !important;
+       gap: 12px !important;
+       margin-bottom: 16px !important;
+     }
+     
+     .modern-card .flex.flex-wrap {
+       flex-wrap: nowrap !important;
+     }
+     
+     .modern-card .flex-1 {
+       flex: 1 !important;
+       min-width: 0 !important;
+     }
+     
+     /* Card Layout */
+     .modern-card {
+       background: rgba(255, 255, 255, 0.1) !important;
+       backdrop-filter: blur(20px) !important;
+       border: 1px solid rgba(255, 255, 255, 0.2) !important;
+       border-radius: 24px !important;
+       padding: 24px !important;
+       margin-bottom: 24px !important;
+     }
+    
+    /* Sayfa yüklenirken görünümü kontrol et */
+    body { opacity: 0; transition: opacity 0.5s ease-in-out; }
+    body.loaded { opacity: 1; }
+    
+    /* Dark Mode Support */
+    @media (prefers-color-scheme: dark) {
+      .modern-card {
+        background: rgba(0, 0, 0, 0.2);
+        color: white;
+      }
+      
+      .modern-input {
+        background: rgba(0, 0, 0, 0.3);
+        color: white;
+      }
+    }
+    
+    /* Text readability improvements */
+    .text-readable {
+      line-height: 1.6;
+      letter-spacing: 0.015em;
+    }
+    
+    .text-shadow-soft {
+      text-shadow: 0 1px 2px rgba(0,0,0,0.4);
+    }
+    
+    .text-shadow-medium {
+      text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    }
+    
+    /* Better font weights */
+    .font-semi-black {
+      font-weight: 800;
+    }
+    
+    .font-heavy {
+      font-weight: 700;
+    }
+    
+    /* Responsive Improvements */
+    @media (max-width: 768px) {
+      .modern-card {
+        margin: 0.5rem;
+      }
+      
+      /* Mobile text optimizations */
+      .mobile-text-sm {
+        font-size: 0.875rem;
+        line-height: 1.5;
+      }
+      
+      .mobile-title {
+        font-size: 1.5rem;
+        line-height: 1.4;
+        overflow-wrap: break-word;
+        hyphens: auto;
+      }
+      
+      /* Prevent text overflow */
+      .text-ellipsis-mobile {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      
+      /* Better spacing on mobile */
+      .mobile-padding {
+        padding: 1rem 0.75rem;
+      }
+      
+      /* Fix header text on mobile */
+      .header-mobile-fix {
+        font-size: 1.25rem;
+        line-height: 1.3;
+      }
+    }
+    
+    @media (max-width: 640px) {
+      /* Extra small mobile fixes */
+      .hero-title-mobile {
+        font-size: 2.5rem;
+        line-height: 1.2;
+      }
+      
+      .hero-subtitle-mobile {
+        font-size: 1.125rem;
+        line-height: 1.4;
+      }
+      
+      /* Card layout fixes */
+      .card-mobile-stack {
+        flex-direction: column;
+      }
+      
+      .card-mobile-stack .flex-1 {
+        margin-top: 1rem;
+      }
+    }
+    
+    /* Z-index management */
+    .z-sticky {
+      z-index: 25;
+    }
+    
+    .z-modal {
+      z-index: 60;
+    }
+    
+    /* Performance optimizations */
+    .backdrop-light {
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+    
+    /* Text contrast improvements */
+    .text-high-contrast {
+      color: var(--text-primary-strong) !important;
+      text-shadow: none !important;
+      font-weight: 600 !important;
+    }
+    
+    .text-white-readable {
+      color: var(--text-white-strong) !important;
+      text-shadow: var(--shadow-strong) !important;
+      font-weight: 700 !important;
+      letter-spacing: 0.3px !important;
+    }
+    
+    .text-white-super-readable {
+      color: var(--text-white-strong) !important;
+      text-shadow: var(--shadow-extra-strong) !important;
+      font-weight: 800 !important;
+      letter-spacing: 0.5px !important;
+      -webkit-text-stroke: 0.5px rgba(0,0,0,0.3);
+    }
+    
+    /* Header Text Özel Düzenlemesi */
+    .header-text-brand {
+      color: var(--text-white-strong) !important;
+      text-shadow: var(--shadow-extra-strong) !important;
+      font-weight: 900 !important;
+      letter-spacing: 1px !important;
+      -webkit-text-stroke: 1px rgba(0,0,0,0.5);
+    }
+    
+    .header-text-subtitle {
+      color: var(--text-white-strong) !important;
+      text-shadow: var(--shadow-strong) !important;
+      font-weight: 700 !important;
+      letter-spacing: 0.8px !important;
+      opacity: 0.95 !important;
+    }
+    
+    /* Dark mode uyumluluğu */
+    @media (prefers-color-scheme: dark) {
+      .text-white-readable {
+        color: var(--text-white-strong) !important;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.9) !important;
+      }
+    }
+    
+    /* Buton renk uyumluluğu */
+    .btn-gradient-primary {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+      color: var(--text-white-strong) !important;
+      text-shadow: var(--shadow-strong) !important;
+      font-weight: 700 !important;
+    }
+    
+    /* Category button renk uyumluluğu */
+    .category-modern {
+      color: var(--text-white-strong) !important;
+      text-shadow: var(--shadow-strong) !important;
+      font-weight: 700 !important;
+    }
+    
+    /* Hero section text güçlendirme */
+    .hero-text-strong {
+      color: var(--text-white-strong) !important;
+      text-shadow: var(--shadow-extra-strong) !important;
+      font-weight: 900 !important;
+      letter-spacing: 1px !important;
+    }
+    
+    /* Stats text güçlendirme */
+    .stats-text {
+      color: var(--text-white-strong) !important;
+      text-shadow: var(--shadow-strong) !important;
+      font-weight: 800 !important;
+    }
+
+    /* === DÜZELTME: Kaydet / Sohbet butonlarının daha iyi görünmesi için === */
+    .save-btn,
+    .chat-btn,
+    .remove-btn {
+      /* Minimum genişlik, mobilde bile metni tek satırda tutar */
+      min-width: 130px !important;
+      /* Flex temel büyüme – her buton satırda eşit alan kaplasın ama daralıp yazı kırmasın */
+      flex: 1 1 130px !important;
+      /* Metinlerin alt satıra düşmesini engelle */
+      white-space: nowrap !important;
+    }
+
+    /* Kart altındaki buton konteynerinde satır kaymasını azalt */
+    .modern-card .flex.flex-wrap {
+      flex-wrap: nowrap !important;
+    }
+
+    /* Küçük ekranlarda tek sütuna düşsün */
+    @media (max-width: 480px) {
+      .modern-card .flex {
+        flex-direction: column !important;
+      }
+      .save-btn,
+      .chat-btn,
+      .remove-btn {
+        width: 100% !important;
+      }
+    }
+
+    /* Kitap Kartı Stilleri */
+    .book-card {
+        background: white !important;
+        border: 1px solid rgba(0, 0, 0, 0.1) !important;
+        transition: all 0.3s ease !important;
+    }
+
+    .book-card:hover {
+        transform: translateY(-2px) !important;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1) !important;
+    }
+
+    .book-thumbnail img {
+        transition: transform 0.3s ease !important;
+    }
+
+    .book-card:hover .book-thumbnail img {
+        transform: scale(1.05) !important;
+    }
+
+    .line-clamp-2 {
+        display: -webkit-box !important;
+        -webkit-line-clamp: 2 !important;
+        -webkit-box-orient: vertical !important;
+        overflow: hidden !important;
+    }
+
+    .line-clamp-3 {
+        display: -webkit-box !important;
+        -webkit-line-clamp: 3 !important;
+        -webkit-box-orient: vertical !important;
+        overflow: hidden !important;
+    }
+
+    /* Modern Buton Stilleri */
+    .modern-action-btn {
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 8px !important;
+        height: 44px !important;
+        width: 100% !important;
+        padding: 0 20px !important;
+        border-radius: 8px !important;
+        font-size: 15px !important;
+        font-weight: 600 !important;
+        letter-spacing: 0.3px !important;
+        white-space: nowrap !important;
+        transition: all 0.2s ease !important;
+        border: none !important;
+        outline: none !important;
+        cursor: pointer !important;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+    }
+
+    .modern-action-btn i {
+        font-size: 16px !important;
+    }
+
+    .modern-action-btn.save-btn {
+        background: linear-gradient(135deg, #10B981 0%, #059669 100%) !important;
+        color: white !important;
+    }
+
+    .modern-action-btn.chat-btn {
+        background: linear-gradient(135deg, #8B5CF6 0%, #6D28D9 100%) !important;
+        color: white !important;
+    }
+
+    .modern-action-btn.remove-btn {
+        background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%) !important;
+        color: white !important;
+    }
+
+    .modern-action-btn:hover {
+        transform: translateY(-1px) !important;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15) !important;
+    }
+
+    .modern-action-btn:active {
+        transform: translateY(0) !important;
+    }
+
+    /* Mobil Düzenlemeler */
+    @media (max-width: 640px) {
+        .book-card .flex {
+            flex-direction: column !important;
+        }
+        
+        .book-thumbnail {
+            margin: 0 auto 16px !important;
+        }
+        
+        .book-actions {
+            flex-direction: column !important;
+            gap: 8px !important;
+        }
+        
+        .modern-action-btn {
+            width: 100% !important;
+        }
+    }
+
+    /* Stats text güçlendirme */
+    .stats-text {
+      color: var(--text-white-strong) !important;
+      text-shadow: var(--shadow-strong) !important;
+      font-weight: 800 !important;
+    }
+
+    /* === MOBİL UYUMLULUK İYİLEŞTİRMELERİ === */
+    
+    /* Mobile header text optimizations */
+    @media (max-width: 768px) {
+      .header-text-brand {
+        font-size: 1.5rem !important;
+        letter-spacing: 0.8px !important;
+        text-shadow: var(--shadow-extra-strong) !important;
+        -webkit-text-stroke: 0.8px rgba(0,0,0,0.6);
+      }
+      
+      .header-text-subtitle {
+        font-size: 0.75rem !important;
+        letter-spacing: 0.5px !important;
+        text-shadow: var(--shadow-strong) !important;
+      }
+      
+      .hero-text-strong {
+        font-size: 2.5rem !important;
+        line-height: 1.1 !important;
+        text-shadow: var(--shadow-extra-strong) !important;
+        letter-spacing: 0.8px !important;
+        -webkit-text-stroke: 1px rgba(0,0,0,0.7);
+      }
+      
+      .text-white-super-readable {
+        font-weight: 700 !important;
+        text-shadow: var(--shadow-extra-strong) !important;
+        letter-spacing: 0.3px !important;
+      }
+      
+      .stats-text {
+        font-weight: 700 !important;
+        text-shadow: var(--shadow-extra-strong) !important;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .header-text-brand {
+        font-size: 1.25rem !important;
+        letter-spacing: 0.6px !important;
+      }
+      
+      .header-text-subtitle {
+        font-size: 0.6rem !important;
+        letter-spacing: 0.3px !important;
+      }
+      
+      .hero-text-strong {
+        font-size: 2rem !important;
+        letter-spacing: 0.5px !important;
+      }
+    }
+    
+    /* Dark background text enhancement */
+    .dark-bg-text {
+      color: var(--text-white-strong) !important;
+      text-shadow: var(--shadow-extra-strong) !important;
+      font-weight: 800 !important;
+      letter-spacing: 0.5px !important;
+      -webkit-text-stroke: 0.5px rgba(0,0,0,0.5);
+    }
+
+    /* Contrast booster for problematic areas */
+    .contrast-boost {
+      background: rgba(0,0,0,0.4) !important;
+      backdrop-filter: blur(8px) !important;
+      border: 1px solid rgba(255,255,255,0.1) !important;
+      border-radius: 8px !important;
+      padding: 4px 8px !important;
+      display: inline-block !important;
+    }
+
+    /* Hover efektleri */
+    .books-grid .action-btn:hover {
+      transform: translateY(-1px) !important;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+    }
+
+    /* === SECONDARY ACTIONS ÖZEL DÜZENLEMESİ === */
+    
+    .books-grid .secondary-actions {
+      display: flex !important;
+      gap: 0.5rem !important;
+      justify-content: center !important;
+      align-items: stretch !important;
+      margin-top: 0.75rem !important;
+      padding-top: 0.75rem !important;
+      border-top: 1px solid #e2e8f0 !important;
+      position: relative !important;
+      z-index: 1 !important;
+    }
+    
+    /* Buton renkleri düzenlemesi */
+    .books-grid .read-btn {
+      background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%) !important;
+    }
+    
+    .books-grid .preview-btn {
+      background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%) !important;
+    }
+    
+    .books-grid .search-btn {
+      background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%) !important;
+    }
+
+    /* === MODERN POPUP TASARIMI === */
+    .chat-popup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.95);
+      background: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(10px);
+      border-radius: 16px;
+      padding: 1.5rem;
+      max-width: 90%;
+      width: 500px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .chat-popup.show {
+      opacity: 1;
+      visibility: visible;
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    .chat-popup-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+    }
+
+    .chat-popup-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #ffffff;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
+    }
+
+    .chat-popup-close {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: none;
+      background: rgba(226, 232, 240, 0.5);
+      color: #64748b;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .chat-popup-close:hover {
+      background: rgba(226, 232, 240, 0.8);
+      color: #1a202c;
+    }
+
+    .chat-popup-content {
+      margin-bottom: 1rem;
+    }
+
+    .chat-popup-actions {
+      display: flex;
+      gap: 0.75rem;
+      justify-content: flex-end;
+    }
+
+    .chat-popup-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(4px);
+      z-index: 999;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .chat-popup-overlay.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* Mobil düzenlemeler */
+    @media (max-width: 768px) {
+      .chat-popup {
+        width: 95%;
+        padding: 1.25rem;
+      }
+    }
+  </style>
+  <script>
+    function readBook(bookId) {
+        window.location.href = 'read.php?id=' + bookId;
+    }
+    
+    function previewBook(bookId) {
+        window.location.href = 'preview.php?id=' + bookId;
+    }
+  </script>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-slate-100 to-white flex flex-col">
+
+  <!-- Erken giriş kontrolü için script -->
+  <script>
+    // Sayfa yüklenmeden önce giriş durumunu kontrol et
+    (function() {
+      // Eski localStorage'dan userName'i temizle
+      if (localStorage.getItem('userName')) {
+        localStorage.removeItem('userName');
+      }
+      
+      // Önce giriş ekranını göster (varsayılan)
+      document.documentElement.style.setProperty('--auth-display', 'flex');
+      document.documentElement.style.setProperty('--main-display', 'none');
+      
+      // Backend'den auth durumunu kontrol et
+      fetch('auth.php?action=check')
+        .then(response => response.json())
+        .then(data => {
+          if (data.authenticated) {
+            // Kullanıcı giriş yapmış - ana içeriği göster
+            document.documentElement.style.setProperty('--auth-display', 'none');
+            document.documentElement.style.setProperty('--main-display', 'block');
+            
+            // Kullanıcı bilgilerini sakla
+            window.currentUser = data.user;
+          }
+        })
+        .catch(error => {
+          console.log('Auth check error:', error);
+          // Hata durumunda giriş ekranında kal
+        });
+      
+      // Sayfa yüklendiğinde göster
+      document.addEventListener('DOMContentLoaded', function() {
+        document.body.classList.add('loaded');
+      });
+    })();
+  </script>
+
+  <!-- Giriş/Kayıt Modalı (tam sayfa) -->
+  <div id="auth-modal" class="fixed inset-0 z-50 flex items-center justify-center" style="background: linear-gradient(45deg, rgba(0,0,0,0.85), rgba(102,126,234,0.4)) !important;">
+    <div class="w-full max-w-md mx-auto glass-strong rounded-3xl shadow-2xl p-8 md:p-10 relative border border-white/30">
+      <div class="mb-8 text-center">
+                  <div class="floating mb-4">
+            <div class="w-20 h-20 mx-auto bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg pulse-glow">
+              <i class="fas fa-book-open text-white text-2xl"></i>
+            </div>
+          </div>
+        <h1 class="text-3xl font-bold bg-gradient-to-r from-yellow-300 to-orange-300 bg-clip-text text-transparent mb-2" id="auth-title">Giriş Yap</h1>
+        <p class="modal-text-secondary text-sm font-medium" id="auth-desc">OMCN HUB'a hoş geldin! Lütfen giriş yap veya kayıt ol.</p>
+      </div>
+      <!-- Giriş Formu -->
+      <form id="login-form" class="space-y-6">
+        <div class="space-y-4">
+          <div class="relative">
+            <label for="login-email" class="block text-sm font-semibold modal-text-primary mb-2">
+              <i class="fas fa-envelope mr-2"></i>E-posta
+            </label>
+            <input id="login-email" type="email" required class="w-full modern-input rounded-xl px-5 py-4 focus:outline-none text-gray-800 font-medium placeholder-gray-500 bg-white" placeholder="ornek@email.com">
+          </div>
+          <div class="relative">
+            <label for="login-password" class="block text-sm font-semibold modal-text-primary mb-2">
+              <i class="fas fa-lock mr-2"></i>Şifre
+            </label>
+            <input id="login-password" type="password" required class="w-full modern-input rounded-xl px-5 py-4 focus:outline-none text-gray-800 font-medium placeholder-gray-500 bg-white" placeholder="••••••••">
+        </div>
+        </div>
+        
+        <button type="submit" class="w-full btn-gradient-primary modal-text-primary font-bold text-lg py-4 rounded-xl border-0">
+          <i class="fas fa-sign-in-alt mr-2"></i>Giriş Yap
+        </button>
+        
+        <div class="flex items-center my-6">
+          <div class="flex-1 h-px bg-white/30"></div>
+          <span class="mx-4 modal-text-muted text-sm font-medium">veya</span>
+          <div class="flex-1 h-px bg-white/30"></div>
+        </div>
+        
+        <button type="button" class="w-full glass modal-text-primary font-semibold py-4 rounded-xl flex items-center justify-center gap-3 hover:bg-white/20 transition-all duration-300">
+          <i class="fab fa-google text-xl"></i>
+          Google ile Giriş Yap
+        </button>
+      </form>
+      <!-- Kayıt Formu (başlangıçta gizli) -->
+      <form id="signup-form" class="space-y-6 hidden">
+        <div class="space-y-4">
+          <div class="relative">
+            <label for="signup-name" class="block text-sm font-semibold modal-text-primary mb-2">
+              <i class="fas fa-user mr-2"></i>Ad Soyad
+            </label>
+            <input id="signup-name" type="text" required class="w-full modern-input rounded-xl px-5 py-4 focus:outline-none text-gray-800 font-medium placeholder-gray-500 bg-white" placeholder="Ahmet Yılmaz">
+          </div>
+          <div class="relative">
+            <label for="signup-email" class="block text-sm font-semibold modal-text-primary mb-2">
+              <i class="fas fa-envelope mr-2"></i>E-posta
+            </label>
+            <input id="signup-email" type="email" required class="w-full modern-input rounded-xl px-5 py-4 focus:outline-none text-gray-800 font-medium placeholder-gray-500 bg-white" placeholder="ornek@email.com">
+        </div>
+          <div class="relative">
+            <label for="signup-password" class="block text-sm font-semibold modal-text-primary mb-2">
+              <i class="fas fa-lock mr-2"></i>Şifre
+            </label>
+            <input id="signup-password" type="password" required class="w-full modern-input rounded-xl px-5 py-4 focus:outline-none text-gray-800 font-medium placeholder-gray-500 bg-white" placeholder="En az 6 karakter">
+        </div>
+        </div>
+        
+        <button type="submit" class="w-full btn-gradient-secondary modal-text-primary font-bold text-lg py-4 rounded-xl border-0">
+          <i class="fas fa-user-plus mr-2"></i>Kayıt Ol
+        </button>
+        
+        <div class="flex items-center my-6">
+          <div class="flex-1 h-px bg-white/30"></div>
+          <span class="mx-4 modal-text-muted text-sm font-medium">veya</span>
+          <div class="flex-1 h-px bg-white/30"></div>
+        </div>
+        
+        <button type="button" class="w-full glass modal-text-primary font-semibold py-4 rounded-xl flex items-center justify-center gap-3 hover:bg-white/20 transition-all duration-300">
+          <i class="fab fa-google text-xl"></i>
+          Google ile Kayıt Ol
+        </button>
+      </form>
+      <!-- Giriş/Kayıt Geçişi -->
+      <p class="text-center text-sm modal-text-secondary mt-8">
+        <span id="toggle-auth">Hesabın yok mu? <a href="#" class="modal-text-primary font-bold hover:text-white/90 transition-colors duration-300 bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent hover:from-blue-300 hover:to-purple-400">Kayıt Ol</a></span>
+      </p>
+    </div>
+  </div>
+
+  <!-- Ana Site İçeriği (başlangıçta gizli) -->
+  <div id="main-content" class="hidden">
+    <!-- Üst Bar -->
+    <header class="w-full glass-strong sticky top-0 z-30 border-b border-white/20" style="background: rgba(0,0,0,0.3); backdrop-filter: blur(20px);">
+      <div class="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
+        <div class="flex items-center gap-4">
+          <div class="relative">
+            <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg">
+              <i class="fas fa-book-open text-white text-xl"></i>
+            </div>
+            <div class="absolute -top-1 -right-1 w-4 h-4 bg-gradient-to-r from-emerald-400 to-cyan-500 rounded-full border-2 border-white"></div>
+          </div>
+          <div class="text-readable">
+            <span class="text-2xl header-text-brand">OMCN</span>
+            <span class="text-xl header-text-brand ml-1">E-KİTAP</span>
+            <div class="text-xs header-text-subtitle">Dijital Kütüphane</div>
+          </div>
+        </div>
+        <!-- Desktop Navigation -->
+        <div class="hidden md:flex items-center gap-2">
+          <a href="#" id="home-btn" class="flex items-center gap-2 px-5 py-3 rounded-2xl font-heavy transition-all duration-300 btn-gradient-primary text-white shadow-lg text-shadow-soft hover:scale-105">
+            <i class="fas fa-home text-sm"></i>
+            Ana Sayfa
+          </a>
+          <a href="#" id="library-btn" class="flex items-center gap-2 px-5 py-3 rounded-2xl font-heavy transition-all duration-300 text-white hover:bg-white/20 hover:scale-105 text-shadow-soft" style="background: rgba(0,0,0,0.4);">
+            <i class="fas fa-book text-sm"></i>
+            Kütüphane
+          </a>
+          <a href="#" id="about-btn" class="flex items-center gap-2 px-5 py-3 rounded-2xl font-heavy transition-all duration-300 text-white hover:bg-white/20 hover:scale-105 text-shadow-soft" style="background: rgba(0,0,0,0.4);">
+            <i class="fas fa-info-circle text-sm"></i>
+            Hakkında
+          </a>
+        </div>
+
+        <!-- Mobile Menu Button -->
+        <div class="md:hidden">
+          <button id="mobile-menu-btn" class="p-3 rounded-xl text-white hover:bg-white/20 transition-all duration-300" style="background: rgba(0,0,0,0.4);">
+            <i class="fas fa-bars text-xl"></i>
+          </button>
+        </div>
+        <div class="flex items-center gap-4 relative">
+          <div class="relative">
+            <button id="user-menu-btn" class="flex items-center gap-3 px-4 py-2 rounded-2xl focus:outline-none hover:bg-white/20 transition-all duration-300" style="background: rgba(0,0,0,0.4);">
+              <div class="w-10 h-10 bg-gradient-to-br from-emerald-400 to-cyan-500 rounded-xl flex items-center justify-center shadow-lg">
+                <i class="fas fa-user text-white text-sm"></i>
+              </div>
+              <div class="hidden md:block text-left text-readable">
+                <span class="block text-white-super-readable font-heavy text-sm" id="user-welcome">Hoşgeldin, Ahmet</span>
+                <span class="block text-white-super-readable font-medium text-xs">Premium Üye</span>
+              </div>
+              <i class="fas fa-chevron-down text-white-super-readable text-xs"></i>
+            </button>
+            
+            <!-- Kullanıcı Menüsü -->
+            <div id="user-menu" class="hidden absolute right-0 mt-3 w-56 glass-strong rounded-2xl shadow-xl border border-white/20 py-3 z-50">
+              <a href="#" id="profile-btn" class="flex items-center gap-3 px-5 py-3 text-white hover:bg-white/10 transition-all duration-300">
+                <div class="w-8 h-8 bg-gradient-to-br from-blue-400 to-purple-500 rounded-lg flex items-center justify-center">
+                  <i class="fas fa-user text-white text-xs"></i>
+                </div>
+                <div>
+                  <div class="font-semibold text-sm">Profil</div>
+                  <div class="text-white/70 text-xs">Hesap ayarları</div>
+                </div>
+              </a>
+              <a href="#" id="change-password-btn" class="flex items-center gap-3 px-5 py-3 text-white hover:bg-white/10 transition-all duration-300">
+                <div class="w-8 h-8 bg-gradient-to-br from-green-400 to-teal-500 rounded-lg flex items-center justify-center">
+                  <i class="fas fa-lock text-white text-xs"></i>
+                </div>
+                <div>
+                  <div class="font-semibold text-sm">Şifre Değiştir</div>
+                  <div class="text-white/70 text-xs">Güvenlik ayarları</div>
+                </div>
+              </a>
+              <div class="border-t border-white/20 my-2"></div>
+              <a href="#" id="logout-btn" class="flex items-center gap-3 px-5 py-3 text-red-300 hover:bg-red-500/20 transition-all duration-300">
+                <div class="w-8 h-8 bg-gradient-to-br from-red-400 to-pink-500 rounded-lg flex items-center justify-center">
+                  <i class="fas fa-sign-out-alt text-white text-xs"></i>
+                </div>
+                <div>
+                  <div class="font-semibold text-sm">Çıkış Yap</div>
+                  <div class="text-red-200 text-xs">Oturumu sonlandır</div>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Mobile Navigation Menu -->
+    <div id="mobile-menu" class="fixed inset-0 z-40 hidden">
+      <div class="fixed inset-0 bg-black/70 backdrop-blur-sm" onclick="closeMobileMenu()"></div>
+      <div class="fixed top-0 right-0 h-full w-80 max-w-[85vw] glass-strong transform translate-x-full transition-transform duration-300 ease-in-out" style="background: rgba(0,0,0,0.8); backdrop-filter: blur(20px);">
+        <div class="p-6">
+          <!-- Mobile Menu Header -->
+          <div class="flex items-center justify-between mb-8">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center">
+                <i class="fas fa-book-open text-white text-lg"></i>
+              </div>
+              <div>
+                <h3 class="text-white font-bold">OMCN E-Kitap</h3>
+                <p class="text-white/70 text-xs">Menü</p>
+              </div>
+            </div>
+            <button onclick="closeMobileMenu()" class="p-2 rounded-lg text-white hover:bg-white/20 transition-all duration-300">
+              <i class="fas fa-times text-xl"></i>
+            </button>
+          </div>
+
+          <!-- Mobile Menu Items -->
+          <nav class="space-y-3">
+            <a href="#" onclick="closeMobileMenu(); document.getElementById('home-btn').click();" class="flex items-center gap-4 p-4 rounded-xl text-white hover:bg-white/20 transition-all duration-300">
+              <div class="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
+                <i class="fas fa-home"></i>
+              </div>
+              <div>
+                <div class="font-semibold">Ana Sayfa</div>
+                <div class="text-xs text-white/70">Kitap arama ve keşfet</div>
+              </div>
+            </a>
+
+            <a href="#" onclick="closeMobileMenu(); document.getElementById('library-btn').click();" class="flex items-center gap-4 p-4 rounded-xl text-white hover:bg-white/20 transition-all duration-300">
+              <div class="w-10 h-10 bg-gradient-to-r from-green-500 to-teal-600 rounded-lg flex items-center justify-center">
+                <i class="fas fa-book"></i>
+              </div>
+              <div>
+                <div class="font-semibold">Kütüphanem</div>
+                <div class="text-xs text-white/70">Kayıtlı kitaplarım</div>
+              </div>
+            </a>
+
+            <a href="#" onclick="closeMobileMenu(); document.getElementById('about-btn').click();" class="flex items-center gap-4 p-4 rounded-xl text-white hover:bg-white/20 transition-all duration-300">
+              <div class="w-10 h-10 bg-gradient-to-r from-orange-500 to-red-600 rounded-lg flex items-center justify-center">
+                <i class="fas fa-info-circle"></i>
+              </div>
+              <div>
+                <div class="font-semibold">Hakkında</div>
+                <div class="text-xs text-white/70">Platform bilgileri</div>
+              </div>
+            </a>
+
+            <a href="#" onclick="closeMobileMenu(); document.getElementById('profile-btn').click();" class="flex items-center gap-4 p-4 rounded-xl text-white hover:bg-white/20 transition-all duration-300">
+              <div class="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-600 rounded-lg flex items-center justify-center">
+                <i class="fas fa-user"></i>
+              </div>
+              <div>
+                <div class="font-semibold">Profil</div>
+                <div class="text-xs text-white/70">Hesap ayarları</div>
+              </div>
+            </a>
+          </nav>
+
+          <!-- Mobile Menu Footer -->
+          <div class="absolute bottom-6 left-6 right-6">
+            <div class="text-center text-white/60 text-xs mb-4">
+              OMCN E-Kitap v2.1.0
+            </div>
+            <button onclick="closeMobileMenu(); window.api && window.api.logout();" class="w-full p-3 rounded-xl text-white bg-red-500/20 hover:bg-red-500/30 transition-all duration-300 flex items-center justify-center gap-2">
+              <i class="fas fa-sign-out-alt"></i>
+              Çıkış Yap
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero-gradient py-16 px-6" style="background: linear-gradient(135deg, rgba(102, 126, 234, 0.9) 0%, rgba(118, 75, 162, 0.9) 100%), rgba(0,0,0,0.4);">
+      <div class="max-w-7xl mx-auto text-center">
+        <div class="floating mb-8">
+          <h1 class="text-5xl md:text-7xl hero-title-mobile hero-text-strong mb-4 text-readable">
+            Sınırsız 
+            <span class="hero-text-strong">
+              Okuma
+            </span>
+            <br />
+            Deneyimi
+          </h1>
+          <p class="text-xl md:text-2xl hero-subtitle-mobile text-white-super-readable mb-8 max-w-3xl mx-auto font-heavy text-readable">
+            Binlerce kitaba anında erişin, dijital kütüphanenizi oluşturun ve okuma alışkanlığınızı geliştirin
+          </p>
+        </div>
+        
+        <div class="flex flex-col md:flex-row items-center justify-center gap-6 mb-12">
+          <button class="btn-gradient-secondary text-white font-heavy text-lg px-8 py-4 rounded-2xl shadow-lg flex items-center gap-3 text-shadow-soft">
+            <i class="fas fa-rocket"></i>
+            Hemen Keşfet
+          </button>
+          <button class="text-white font-heavy px-8 py-4 rounded-2xl flex items-center gap-3 hover:bg-white/20 transition-all duration-300 text-shadow-soft" style="background: rgba(0,0,0,0.4);">
+            <i class="fas fa-play-circle"></i>
+            Nasıl Çalışır?
+          </button>
+        </div>
+        
+        <!-- İstatistikler -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+          <div class="rounded-2xl p-6 text-center hover:scale-105 transition-all duration-300 mobile-padding text-readable" style="background: rgba(0,0,0,0.4);">
+            <div class="w-12 h-12 bg-gradient-to-r from-blue-400 to-purple-500 rounded-xl flex items-center justify-center mx-auto mb-3">
+              <i class="fas fa-book text-white text-xl"></i>
+            </div>
+            <div class="text-3xl stats-text mb-2">10K+</div>
+            <div class="stats-text">Aktif Kitap</div>
+          </div>
+          <div class="rounded-2xl p-6 text-center hover:scale-105 transition-all duration-300 mobile-padding text-readable" style="background: rgba(0,0,0,0.4);">
+            <div class="w-12 h-12 bg-gradient-to-r from-emerald-400 to-cyan-500 rounded-xl flex items-center justify-center mx-auto mb-3">
+              <i class="fas fa-users text-white text-xl"></i>
+            </div>
+            <div class="text-3xl stats-text mb-2">5K+</div>
+            <div class="stats-text">Mutlu Kullanıcı</div>
+          </div>
+          <div class="rounded-2xl p-6 text-center hover:scale-105 transition-all duration-300 mobile-padding text-readable" style="background: rgba(0,0,0,0.4);">
+            <div class="w-12 h-12 bg-gradient-to-r from-orange-400 to-pink-500 rounded-xl flex items-center justify-center mx-auto mb-3">
+              <i class="fas fa-th-large text-white text-xl"></i>
+            </div>
+            <div class="text-3xl stats-text mb-2">50+</div>
+            <div class="stats-text">Farklı Kategori</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Kategoriler -->
+    <div id="categories" class="w-full bg-gray-600/20 p-4">
+      <div class="max-w-7xl mx-auto">
+        <div class="flex items-center mb-4">
+          <h2 class="text-white text-xl font-semibold flex items-center">
+            <i class="fas fa-th-large mr-2"></i> Kategoriler
+          </h2>
+        </div>
+        
+        <div class="flex flex-wrap gap-3">
+          <button class="category-btn px-6 py-3 rounded-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white flex items-center hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-indigo-500/25" data-category="fiction">
+            <i class="fas fa-book mr-2 text-yellow-300"></i> Roman
+          </button>
+          <button class="category-btn px-6 py-3 rounded-full bg-gradient-to-r from-gray-600/60 to-gray-700/60 backdrop-blur-sm text-white flex items-center hover:from-orange-600/80 hover:to-red-600/80 transition-all duration-300 shadow-lg" data-category="history">
+            <i class="fas fa-landmark mr-2 text-orange-300"></i> Tarih
+          </button>
+          <button class="category-btn px-6 py-3 rounded-full bg-gradient-to-r from-gray-600/60 to-gray-700/60 backdrop-blur-sm text-white flex items-center hover:from-blue-600/80 hover:to-cyan-600/80 transition-all duration-300 shadow-lg" data-category="science">
+            <i class="fas fa-atom mr-2 text-blue-300"></i> Bilim
+          </button>
+          <button class="category-btn px-6 py-3 rounded-full bg-gradient-to-r from-gray-600/60 to-gray-700/60 backdrop-blur-sm text-white flex items-center hover:from-purple-600/80 hover:to-pink-600/80 transition-all duration-300 shadow-lg" data-category="philosophy">
+            <i class="fas fa-brain mr-2 text-purple-300"></i> Felsefe
+          </button>
+          <button class="category-btn px-6 py-3 rounded-full bg-gradient-to-r from-gray-600/60 to-gray-700/60 backdrop-blur-sm text-white flex items-center hover:from-green-600/80 hover:to-emerald-600/80 transition-all duration-300 shadow-lg" data-category="juvenile-fiction">
+            <i class="fas fa-child mr-2 text-green-300"></i> Çocuk
+          </button>
+          <button class="category-btn px-6 py-3 rounded-full bg-gradient-to-r from-gray-600/60 to-gray-700/60 backdrop-blur-sm text-white flex items-center hover:from-pink-600/80 hover:to-rose-600/80 transition-all duration-300 shadow-lg" data-category="art">
+            <i class="fas fa-palette mr-2 text-pink-300"></i> Sanat
+          </button>
+          <button class="category-btn px-6 py-3 rounded-full bg-gradient-to-r from-gray-600/60 to-gray-700/60 backdrop-blur-sm text-white flex items-center hover:from-teal-600/80 hover:to-cyan-600/80 transition-all duration-300 shadow-lg" data-category="psychology">
+            <i class="fas fa-brain mr-2 text-teal-300"></i> Psikoloji
+          </button>
+          <button class="category-btn px-6 py-3 rounded-full bg-gradient-to-r from-gray-600/60 to-gray-700/60 backdrop-blur-sm text-white flex items-center hover:from-amber-600/80 hover:to-orange-600/80 transition-all duration-300 shadow-lg" data-category="self-help">
+            <i class="fas fa-chart-line mr-2 text-amber-300"></i> Kişisel Gelişim
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Kitap Arama -->
+    <div class="max-w-3xl mx-auto px-6 mb-12">
+      <div class="glass-strong rounded-3xl p-8 border border-white/20" style="background: rgba(0,0,0,0.3);">
+        <div class="flex items-center gap-3 mb-6">
+          <i class="fas fa-search text-white text-2xl"></i>
+          <h2 class="text-3xl hero-text-strong">Kitap Arama</h2>
+          <div class="flex-1 h-px bg-gradient-to-r from-purple-400 to-transparent ml-4"></div>
+        </div>
+        
+        <div class="flex gap-4 mb-6">
+          <div class="flex-1 relative">
+            <input type="text" id="search-input" placeholder="Kitap adı, yazar veya konu ara..." 
+                   class="w-full h-14 bg-white/95 backdrop-blur-lg rounded-2xl px-5 pr-16 text-gray-800 placeholder-gray-500
+                          border-2 border-transparent focus:border-purple-500/30 focus:bg-white
+                          transition-all duration-300 text-base font-medium">
+            <button id="search-btn" class="absolute right-2 top-2 bg-gradient-to-r from-purple-500 to-indigo-600 
+                    text-white h-10 px-4 md:px-6 rounded-xl font-semibold hover:shadow-lg 
+                    transition-all duration-300 flex items-center gap-2">
+              <i class="fas fa-search"></i>
+              <span class="hidden md:inline">Ara</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Filtreler -->
+        <div class="flex flex-wrap gap-2 md:gap-4">
+          <!-- Sıralama -->
+          <div class="premium-dropdown-container">
+            <button class="premium-dropdown-btn glass text-white px-3 md:px-4 py-2 rounded-xl text-sm md:text-base font-medium flex items-center gap-1 md:gap-2 hover:bg-white/20 transition-all" data-dropdown="sort">
+              <i class="fas fa-sort text-purple-300 text-sm"></i>
+              <span class="sort-text hidden sm:inline">En Yeniler</span>
+              <i class="fas fa-chevron-down text-xs opacity-70"></i>
+            </button>
+            <div class="premium-dropdown-menu">
+              <div class="dropdown-option selected" data-value="newest">
+                <i class="fas fa-clock"></i>
+                <span>En Yeniler</span>
+              </div>
+              <div class="dropdown-option" data-value="relevance">
+                <i class="fas fa-star"></i>
+                <span>Önerilen</span>
+              </div>
+              <div class="dropdown-option" data-value="rating">
+                <i class="fas fa-thumbs-up"></i>
+                <span>En Çok Beğenilen</span>
+              </div>
+              <div class="dropdown-option" data-value="bestseller">
+                <i class="fas fa-fire"></i>
+                <span>Çok Satan</span>
+              </div>
+              <div class="dropdown-option" data-value="classic">
+                <i class="fas fa-book"></i>
+                <span>Klasikler</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Dil -->
+          <div class="premium-dropdown-container">
+            <button class="premium-dropdown-btn glass text-white px-3 md:px-4 py-2 rounded-xl text-sm md:text-base font-medium flex items-center gap-1 md:gap-2 hover:bg-white/20 transition-all" data-dropdown="language">
+              <i class="fas fa-language text-blue-300 text-sm"></i>
+              <span class="language-text hidden sm:inline">Tüm Diller</span>
+              <i class="fas fa-chevron-down text-xs opacity-70"></i>
+            </button>
+            <div class="premium-dropdown-menu">
+              <div class="dropdown-option selected" data-value="all">
+                <i class="fas fa-globe"></i>
+                <span>Tüm Diller</span>
+              </div>
+              <div class="dropdown-option" data-value="tr">
+                <i class="fas fa-flag"></i>
+                <span>Türkçe</span>
+              </div>
+              <div class="dropdown-option" data-value="en">
+                <i class="fas fa-flag"></i>
+                <span>İngilizce</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Yıl -->
+          <div class="premium-dropdown-container">
+            <button class="premium-dropdown-btn glass text-white px-3 md:px-4 py-2 rounded-xl text-sm md:text-base font-medium flex items-center gap-1 md:gap-2 hover:bg-white/20 transition-all" data-dropdown="year">
+              <i class="fas fa-calendar text-green-300 text-sm"></i>
+              <span class="year-text hidden sm:inline">Tüm Yıllar</span>
+              <i class="fas fa-chevron-down text-xs opacity-70"></i>
+            </button>
+            <div class="premium-dropdown-menu">
+              <div class="dropdown-option selected" data-value="all">
+                <i class="fas fa-infinity"></i>
+                <span>Tüm Yıllar</span>
+              </div>
+              <div class="dropdown-option" data-value="2024">
+                <i class="fas fa-calendar"></i>
+                <span>2024</span>
+              </div>
+              <div class="dropdown-option" data-value="2023">
+                <i class="fas fa-calendar"></i>
+                <span>2023</span>
+              </div>
+              <div class="dropdown-option" data-value="2020s">
+                <i class="fas fa-calendar"></i>
+                <span>2020-2024</span>
+              </div>
+              <div class="dropdown-option" data-value="2010s">
+                <i class="fas fa-calendar"></i>
+                <span>2010-2019</span>
+              </div>
+              <div class="dropdown-option" data-value="classic">
+                <i class="fas fa-book"></i>
+                <span>Klasik (1800-1999)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sayfa Sayısı -->
+          <div class="premium-dropdown-container">
+            <button class="premium-dropdown-btn glass text-white px-3 md:px-4 py-2 rounded-xl text-sm md:text-base font-medium flex items-center gap-1 md:gap-2 hover:bg-white/20 transition-all" data-dropdown="pages">
+              <i class="fas fa-file-alt text-yellow-300 text-sm"></i>
+              <span class="pages-text hidden sm:inline">Tüm Uzunluk</span>
+              <i class="fas fa-chevron-down text-xs opacity-70"></i>
+            </button>
+            <div class="premium-dropdown-menu">
+              <div class="dropdown-option selected" data-value="all">
+                <i class="fas fa-infinity"></i>
+                <span>Tüm Uzunluk</span>
+              </div>
+              <div class="dropdown-option" data-value="short">
+                <i class="fas fa-file"></i>
+                <span>Kısa (0-200 sayfa)</span>
+              </div>
+              <div class="dropdown-option" data-value="medium">
+                <i class="fas fa-file-alt"></i>
+                <span>Orta (200-400 sayfa)</span>
+              </div>
+              <div class="dropdown-option" data-value="long">
+                <i class="fas fa-file-alt"></i>
+                <span>Uzun (400-600 sayfa)</span>
+              </div>
+              <div class="dropdown-option" data-value="epic">
+                <i class="fas fa-book"></i>
+                <span>Epik (600+ sayfa)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Popüler Aramalar -->
+    <div class="mt-6 px-2 md:px-0">
+      <p class="text-white-super-readable mb-3 flex items-center">
+        <i class="fas fa-fire text-orange-400 mr-2"></i>
+        Popüler Aramalar:
+      </p>
+      <div class="flex flex-wrap gap-2">
+        <button class="popular-search-btn px-3 md:px-4 py-2 rounded-xl bg-gradient-to-r from-gray-700/40 to-gray-600/40 backdrop-blur-sm border border-white/10 text-white/90 hover:from-purple-600/50 hover:to-pink-600/50 hover:border-purple-400/30 transition-all duration-300 transform hover:scale-105 hover:shadow-lg text-sm md:text-base" data-search="Simyacı">
+          <i class="fas fa-magic mr-1 text-yellow-400"></i>
+          Simyacı
+        </button>
+        <button class="popular-search-btn px-3 md:px-4 py-2 rounded-xl bg-gradient-to-r from-gray-700/40 to-gray-600/40 backdrop-blur-sm border border-white/10 text-white/90 hover:from-blue-600/50 hover:to-indigo-600/50 hover:border-blue-400/30 transition-all duration-300 transform hover:scale-105 hover:shadow-lg text-sm md:text-base" data-search="1984">
+          <i class="fas fa-eye mr-1 text-blue-400"></i>
+          1984
+        </button>
+        <button class="popular-search-btn px-3 md:px-4 py-2 rounded-xl bg-gradient-to-r from-gray-700/40 to-gray-600/40 backdrop-blur-sm border border-white/10 text-white/90 hover:from-green-600/50 hover:to-teal-600/50 hover:border-green-400/30 transition-all duration-300 transform hover:scale-105 hover:shadow-lg text-sm md:text-base" data-search="Körlük">
+          <i class="fas fa-glasses mr-1 text-gray-400"></i>
+          Körlük
+        </button>
+        <button class="popular-search-btn px-3 md:px-4 py-2 rounded-xl bg-gradient-to-r from-gray-700/40 to-gray-600/40 backdrop-blur-sm border border-white/10 text-white/90 hover:from-red-600/50 hover:to-pink-600/50 hover:border-red-400/30 transition-all duration-300 transform hover:scale-105 hover:shadow-lg text-sm md:text-base" data-search="Hayvan Çiftliği">
+          <i class="fas fa-horse mr-1 text-green-400"></i>
+          <span class="hidden sm:inline">Hayvan </span>Çiftliği
+        </button>
+        <button class="popular-search-btn px-3 md:px-4 py-2 rounded-xl bg-gradient-to-r from-gray-700/40 to-gray-600/40 backdrop-blur-sm border border-white/10 text-white/90 hover:from-purple-600/50 hover:to-violet-600/50 hover:border-purple-400/30 transition-all duration-300 transform hover:scale-105 hover:shadow-lg text-sm md:text-base" data-search="Satranç">
+          <i class="fas fa-chess mr-1 text-purple-400"></i>
+          Satranç
+        </button>
+        <button class="popular-search-btn px-3 md:px-4 py-2 rounded-xl bg-gradient-to-r from-gray-700/40 to-gray-600/40 backdrop-blur-sm border border-white/10 text-white/90 hover:from-orange-600/50 hover:to-red-600/50 hover:border-orange-400/30 transition-all duration-300 transform hover:scale-105 hover:shadow-lg text-sm md:text-base" data-search="Savaş ve Barış">
+          <i class="fas fa-peace mr-1 text-orange-400"></i>
+          <span class="hidden sm:inline">Savaş ve </span>Barış
+        </button>
+      </div>
+    </div>
+
+    <!-- Arama Sonuçları -->
+    <div id="ai-search-results" class="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- Sonuçlar buraya dinamik olarak yüklenecek -->
+    </div>
+
+    <!-- Ana Arama Sonuçları - Arama kutusunun hemen altına taşındı -->
+    <div id="results" class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 px-6 pb-20 mt-8">
+      <!-- Arama sonuçları buraya dinamik olarak yüklenecek -->
+    </div>
+
+    <!-- Yükleniyor -->
+    <div id="loading" class="hidden">
+      <div class="glass-strong rounded-3xl p-12 text-center border border-white/20 max-w-md mx-auto mobile-padding backdrop-light" style="background: rgba(0,0,0,0.3);">
+        <div class="floating">
+          <div class="w-16 h-16 bg-gradient-to-r from-purple-400 to-pink-400 rounded-2xl flex items-center justify-center mx-auto mb-4">
+            <i class="fas fa-book-open text-white text-2xl"></i>
+          </div>
+        </div>
+        <h3 class="text-white-super-readable font-heavy text-xl mb-2 text-readable">Kitaplar Aranıyor...</h3>
+        <p class="text-white-super-readable font-medium mb-6 text-readable">Lütfen bekleyin, sizin için en iyi sonuçları buluyoruz</p>
+        <div class="flex justify-center">
+          <div class="flex space-x-2">
+            <div class="w-3 h-3 bg-purple-400 rounded-full animate-bounce"></div>
+            <div class="w-3 h-3 bg-pink-400 rounded-full animate-bounce" style="animation-delay: 0.1s"></div>
+            <div class="w-3 h-3 bg-purple-400 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Örnek Kitap Kartları (sadece görsel) -->
+    <main class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 px-6 pb-20">
+      <!-- Örnek Kitap Kartı 1 -->
+      <div class="modern-card rounded-3xl overflow-hidden group hover:scale-105 hover:-translate-y-2 transition-all duration-500">
+        <div class="relative">
+          <img src="https://covers.openlibrary.org/b/id/10523338-L.jpg" alt="Kitap Kapak" class="w-full h-64 object-cover" />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+          <div class="absolute top-4 right-4 flex gap-2">
+            <div class="w-8 h-8 bg-red-500/90 backdrop-blur-sm rounded-full flex items-center justify-center">
+              <i class="fas fa-heart text-white text-sm"></i>
+            </div>
+            <div class="w-8 h-8 bg-blue-500/90 backdrop-blur-sm rounded-full flex items-center justify-center">
+              <i class="fas fa-bookmark text-white text-sm"></i>
+            </div>
+          </div>
+          <div class="absolute bottom-4 left-4 right-4">
+            <div class="flex items-center gap-1 mb-2">
+              <span class="text-yellow-400 text-lg">★</span>
+              <span class="text-yellow-400 text-lg">★</span>
+              <span class="text-yellow-400 text-lg">★</span>
+              <span class="text-yellow-400 text-lg">★</span>
+              <span class="text-white-super-readable text-lg">★</span>
+              <span class="ml-2 text-white-super-readable text-sm font-semibold">4.0</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="p-6 mobile-padding">
+          <div class="flex flex-wrap gap-2 mb-3">
+            <span class="bg-gradient-to-r from-blue-500 to-purple-600 text-white text-xs px-3 py-1.5 rounded-full font-semibold">Roman</span>
+            <span class="bg-gradient-to-r from-green-500 to-teal-600 text-white text-xs px-3 py-1.5 rounded-full font-semibold">Distopya</span>
+          </div>
+          
+          <h2 class="text-xl font-bold text-high-contrast mb-2 group-hover:text-purple-700 transition-colors mobile-title text-readable">Körlük</h2>
+          <p class="text-gray-600 font-medium text-sm mb-3 text-readable">José Saramago</p>
+          
+          <p class="text-gray-700 text-sm line-clamp-3 mb-4 leading-relaxed text-readable">
+            Bir şehirde aniden başlayan körlük salgını, toplumsal düzenin çöküşünü ve insan doğasının sınırlarını gözler önüne seriyor...
+          </p>
+          
+          <div class="space-y-3">
+            <a href="https://openlibrary.org/works/OL4885752W" target="_blank" rel="noopener" 
+               class="w-full btn-gradient-primary text-white py-3 px-4 rounded-2xl font-bold text-center block transition-all duration-300 hover:shadow-xl mobile-text-sm">
+              <i class="fas fa-book-open mr-2"></i>Kitabı Oku
+            </a>
+            <div class="flex gap-2">
+              <a href="#" class="flex-1 bg-gradient-to-r from-green-500 to-emerald-600 text-white py-2.5 px-3 rounded-xl font-semibold text-center text-sm hover:shadow-lg transition-all mobile-text-sm">
+                <i class="fas fa-file-pdf mr-1"></i>PDF
+              </a>
+              <a href="https://books.google.com/books?id=N-rUDQAAQBAJ" target="_blank" rel="noopener" 
+                 class="flex-1 bg-gradient-to-r from-purple-500 to-pink-600 text-white py-2.5 px-3 rounded-xl font-semibold text-center text-sm hover:shadow-lg transition-all mobile-text-sm">
+                <i class="fas fa-eye mr-1"></i>Önizle
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Örnek Kitap Kartı 2 -->
+      <div class="modern-card rounded-3xl overflow-hidden group hover:scale-105 hover:-translate-y-2 transition-all duration-500">
+        <div class="relative">
+          <img src="https://covers.openlibrary.org/b/id/11153223-L.jpg" alt="Kitap Kapak" class="w-full h-64 object-cover" />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+          <div class="absolute top-4 right-4 flex gap-2">
+            <div class="w-8 h-8 bg-red-500/90 backdrop-blur-sm rounded-full flex items-center justify-center">
+              <i class="fas fa-heart text-white text-sm"></i>
+            </div>
+            <div class="w-8 h-8 bg-blue-500/90 backdrop-blur-sm rounded-full flex items-center justify-center">
+              <i class="fas fa-bookmark text-white text-sm"></i>
+            </div>
+          </div>
+          <div class="absolute bottom-4 left-4 right-4">
+            <div class="flex items-center gap-1 mb-2">
+              <span class="text-yellow-400 text-lg">★</span>
+              <span class="text-yellow-400 text-lg">★</span>
+              <span class="text-yellow-400 text-lg">★</span>
+              <span class="text-yellow-400 text-lg">★</span>
+              <span class="text-yellow-400 text-lg">★</span>
+              <span class="ml-2 text-white-super-readable text-sm font-semibold">5.0</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="p-6">
+          <div class="flex flex-wrap gap-2 mb-3">
+            <span class="bg-gradient-to-r from-blue-500 to-purple-600 text-white text-xs px-3 py-1.5 rounded-full font-semibold">Roman</span>
+            <span class="bg-gradient-to-r from-yellow-500 to-orange-600 text-white text-xs px-3 py-1.5 rounded-full font-semibold">Macera</span>
+          </div>
+          
+          <h2 class="text-xl font-bold text-gray-800 mb-2 group-hover:text-purple-700 transition-colors">Simyacı</h2>
+          <p class="text-gray-600 font-medium text-sm mb-3">Paulo Coelho</p>
+          
+          <p class="text-gray-700 text-sm line-clamp-3 mb-4 leading-relaxed">
+            Simyacı, hayallerinin peşinden giden bir çobanın, kendi kişisel menkıbesini bulma yolculuğunu anlatan ilham verici bir roman...
+          </p>
+          
+          <div class="space-y-3">
+            <a href="https://openlibrary.org/works/OL17081W" target="_blank" rel="noopener" 
+               class="w-full btn-gradient-primary text-white py-3 px-4 rounded-2xl font-bold text-center block transition-all duration-300 hover:shadow-xl">
+              <i class="fas fa-book-open mr-2"></i>Kitabı Oku
+            </a>
+            <div class="flex gap-2">
+              <a href="#" class="flex-1 bg-gradient-to-r from-green-500 to-emerald-600 text-white py-2.5 px-3 rounded-xl font-semibold text-center text-sm hover:shadow-lg transition-all">
+                <i class="fas fa-file-pdf mr-1"></i>PDF
+              </a>
+              <a href="https://books.google.com/books?id=FzVjBgAAQBAJ" target="_blank" rel="noopener" 
+                 class="flex-1 bg-gradient-to-r from-purple-500 to-pink-600 text-white py-2.5 px-3 rounded-xl font-semibold text-center text-sm hover:shadow-lg transition-all">
+                <i class="fas fa-eye mr-1"></i>Önizle
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Örnek Kitap Kartı 3 -->
+      <div class="modern-card rounded-3xl overflow-hidden group hover:scale-105 hover:-translate-y-2 transition-all duration-500">
+        <div class="relative">
+          <img src="https://covers.openlibrary.org/b/id/10523339-L.jpg" alt="Kitap Kapak" class="w-full h-64 object-cover" />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+          <div class="absolute top-4 right-4 flex gap-2">
+            <div class="w-8 h-8 bg-red-500/90 backdrop-blur-sm rounded-full flex items-center justify-center">
+              <i class="fas fa-heart text-white text-sm"></i>
+            </div>
+            <div class="w-8 h-8 bg-blue-500/90 backdrop-blur-sm rounded-full flex items-center justify-center">
+              <i class="fas fa-bookmark text-white text-sm"></i>
+            </div>
+          </div>
+          <div class="absolute bottom-4 left-4 right-4">
+            <div class="flex items-center gap-1 mb-2">
+              <span class="text-yellow-400 text-lg">★</span>
+              <span class="text-yellow-400 text-lg">★</span>
+              <span class="text-yellow-400 text-lg">★</span>
+              <span class="text-yellow-400 text-lg">★</span>
+              <span class="text-white-super-readable text-lg">★</span>
+              <span class="ml-2 text-white-super-readable text-sm font-semibold">4.0</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="p-6">
+          <div class="flex flex-wrap gap-2 mb-3">
+            <span class="bg-gradient-to-r from-blue-500 to-purple-600 text-white text-xs px-3 py-1.5 rounded-full font-semibold">Roman</span>
+            <span class="bg-gradient-to-r from-red-500 to-pink-600 text-white text-xs px-3 py-1.5 rounded-full font-semibold">Siyasi</span>
+          </div>
+          
+          <h2 class="text-xl font-bold text-gray-800 mb-2 group-hover:text-purple-700 transition-colors">Hayvan Çiftliği</h2>
+          <p class="text-gray-600 font-medium text-sm mb-3">George Orwell</p>
+          
+          <p class="text-gray-700 text-sm line-clamp-3 mb-4 leading-relaxed">
+            Hayvan Çiftliği, bir çiftlikteki hayvanların insanlara karşı başlattığı isyanı ve sonrasında yaşananları hicivle anlatan bir başyapıttır...
+          </p>
+          
+          <div class="space-y-3">
+            <a href="https://openlibrary.org/works/OL1168007W" target="_blank" rel="noopener" 
+               class="w-full btn-gradient-primary text-white py-3 px-4 rounded-2xl font-bold text-center block transition-all duration-300 hover:shadow-xl">
+              <i class="fas fa-book-open mr-2"></i>Kitabı Oku
+            </a>
+            <div class="flex gap-2">
+              <a href="#" class="flex-1 bg-gradient-to-r from-green-500 to-emerald-600 text-white py-2.5 px-3 rounded-xl font-semibold text-center text-sm hover:shadow-lg transition-all">
+                <i class="fas fa-file-pdf mr-1"></i>PDF
+              </a>
+              <a href="https://books.google.com/books?id=hA5FDwAAQBAJ" target="_blank" rel="noopener" 
+                 class="flex-1 bg-gradient-to-r from-purple-500 to-pink-600 text-white py-2.5 px-3 rounded-xl font-semibold text-center text-sm hover:shadow-lg transition-all">
+                <i class="fas fa-eye mr-1"></i>Önizle
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Popüler ve Önerilenler -->
+    <section class="max-w-7xl mx-auto px-6 mb-16">
+      <div class="glass-strong rounded-3xl p-8 border border-white/20" style="background: rgba(0,0,0,0.3);">
+        <div class="flex items-center gap-3 mb-8">
+          <i class="fas fa-fire text-orange-400 text-2xl"></i>
+          <h3 class="text-3xl hero-text-strong">Popüler Kitaplar</h3>
+          <div class="flex-1 h-px bg-gradient-to-r from-orange-400 to-transparent ml-4"></div>
+        </div>
+        
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+          <a href="https://openlibrary.org/works/OL17081W" target="_blank" rel="noopener" class="modern-card rounded-2xl p-4 group hover:scale-105 transition-all duration-300">
+            <div class="relative mb-4">
+              <img src="https://covers.openlibrary.org/b/id/11153223-L.jpg" class="w-full h-32 object-cover rounded-xl shadow-lg" />
+              <div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent rounded-xl"></div>
+              <div class="absolute top-2 right-2">
+                <div class="w-6 h-6 bg-gradient-to-r from-pink-400 to-red-500 rounded-full flex items-center justify-center">
+                  <i class="fas fa-heart text-white text-xs"></i>
+                </div>
+              </div>
+            </div>
+            <div class="text-center">
+              <span class="font-bold text-purple-700 text-sm block mb-1">Simyacı</span>
+              <span class="text-xs text-gray-700 font-medium">Paulo Coelho</span>
+            </div>
+          </a>
+          
+          <a href="https://openlibrary.org/works/OL4885752W" target="_blank" rel="noopener" class="modern-card rounded-2xl p-4 group hover:scale-105 transition-all duration-300">
+            <div class="relative mb-4">
+              <img src="https://covers.openlibrary.org/b/id/10523338-L.jpg" class="w-full h-32 object-cover rounded-xl shadow-lg" />
+              <div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent rounded-xl"></div>
+              <div class="absolute top-2 right-2">
+                <div class="w-6 h-6 bg-gradient-to-r from-pink-400 to-red-500 rounded-full flex items-center justify-center">
+                  <i class="fas fa-heart text-white text-xs"></i>
+                </div>
+              </div>
+            </div>
+            <div class="text-center">
+              <span class="font-bold text-purple-700 text-sm block mb-1">Körlük</span>
+              <span class="text-xs text-gray-700 font-medium">José Saramago</span>
+            </div>
+          </a>
+          
+          <a href="https://openlibrary.org/works/OL1168007W" target="_blank" rel="noopener" class="modern-card rounded-2xl p-4 group hover:scale-105 transition-all duration-300">
+            <div class="relative mb-4">
+              <img src="https://covers.openlibrary.org/b/id/10523339-L.jpg" class="w-full h-32 object-cover rounded-xl shadow-lg" />
+              <div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent rounded-xl"></div>
+              <div class="absolute top-2 right-2">
+                <div class="w-6 h-6 bg-gradient-to-r from-pink-400 to-red-500 rounded-full flex items-center justify-center">
+                  <i class="fas fa-heart text-white text-xs"></i>
+                </div>
+              </div>
+            </div>
+            <div class="text-center">
+              <span class="font-bold text-purple-700 text-sm block mb-1">Hayvan Çiftliği</span>
+              <span class="text-xs text-gray-700 font-medium">George Orwell</span>
+            </div>
+          </a>
+          
+          <a href="https://openlibrary.org/works/OL1168007W" target="_blank" rel="noopener" class="modern-card rounded-2xl p-4 group hover:scale-105 transition-all duration-300">
+            <div class="relative mb-4">
+              <img src="https://covers.openlibrary.org/b/id/10523340-L.jpg" class="w-full h-32 object-cover rounded-xl shadow-lg" />
+              <div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent rounded-xl"></div>
+              <div class="absolute top-2 right-2">
+                <div class="w-6 h-6 bg-gradient-to-r from-pink-400 to-red-500 rounded-full flex items-center justify-center">
+                  <i class="fas fa-heart text-white text-xs"></i>
+                </div>
+              </div>
+            </div>
+            <div class="text-center">
+              <span class="font-bold text-purple-700 text-sm block mb-1">1984</span>
+              <span class="text-xs text-gray-700 font-medium">George Orwell</span>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="w-full glass-strong border-t border-white/20 py-12 mt-16" style="background: rgba(0,0,0,0.4);">
+      <div class="max-w-7xl mx-auto px-6">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+          <!-- Logo ve Açıklama -->
+          <div class="md:col-span-2">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center">
+                <i class="fas fa-book-open text-white text-xl"></i>
+              </div>
+              <div>
+                <span class="text-2xl header-text-brand">OMCN</span>
+                <span class="text-xl header-text-brand ml-1">E-KİTAP</span>
+              </div>
+            </div>
+            <p class="text-white-super-readable text-sm leading-relaxed max-w-md">
+              Binlerce kitaba ücretsiz erişim sağlayan modern dijital kütüphane platformu. Okuma alışkanlığınızı geliştirin, bilginizi artırın.
+            </p>
+          </div>
+          
+          <!-- Hızlı Bağlantılar -->
+          <div>
+            <h3 class="text-white-super-readable text-lg mb-4">Hızlı Bağlantılar</h3>
+            <div class="space-y-2">
+              <a href="#" class="block text-white-super-readable hover:text-white transition-colors duration-300 text-sm">Ana Sayfa</a>
+              <a href="#" class="block text-white-super-readable hover:text-white transition-colors duration-300 text-sm">Kütüphane</a>
+              <a href="#" class="block text-white-super-readable hover:text-white transition-colors duration-300 text-sm">Popüler Kitaplar</a>
+              <a href="#" class="block text-white-super-readable hover:text-white transition-colors duration-300 text-sm">Kategoriler</a>
+            </div>
+          </div>
+          
+          <!-- İletişim -->
+          <div>
+            <h3 class="text-white-super-readable text-lg mb-4">İletişim</h3>
+            <div class="space-y-2">
+              <a href="#" class="block text-white-super-readable hover:text-white transition-colors duration-300 text-sm">Destek</a>
+              <a href="#" class="block text-white-super-readable hover:text-white transition-colors duration-300 text-sm">Gizlilik Politikası</a>
+              <a href="#" class="block text-white-super-readable hover:text-white transition-colors duration-300 text-sm">Kullanım Koşulları</a>
+              <a href="#" class="block text-white-super-readable hover:text-white transition-colors duration-300 text-sm">İletişim</a>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Alt Kısım -->
+        <div class="border-t border-white/20 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
+          <div class="text-white-super-readable text-sm">
+            © 2025 OMCN E-Kitap. Tüm hakları saklıdır.
+          </div>
+          
+          <!-- Sosyal Medya -->
+          <div class="flex items-center gap-4">
+            <span class="modal-text-secondary text-sm mr-2">Bizi takip edin:</span>
+            <a href="#" class="w-10 h-10 glass rounded-xl flex items-center justify-center text-white hover:bg-white/20 transition-all duration-300 group">
+              <i class="fab fa-twitter group-hover:scale-110 transition-transform"></i>
+            </a>
+            <a href="#" class="w-10 h-10 glass rounded-xl flex items-center justify-center text-white hover:bg-white/20 transition-all duration-300 group">
+              <i class="fab fa-instagram group-hover:scale-110 transition-transform"></i>
+            </a>
+            <a href="#" class="w-10 h-10 glass rounded-xl flex items-center justify-center text-white hover:bg-white/20 transition-all duration-300 group">
+              <i class="fab fa-facebook group-hover:scale-110 transition-transform"></i>
+            </a>
+            <a href="#" class="w-10 h-10 glass rounded-xl flex items-center justify-center text-white hover:bg-white/20 transition-all duration-300 group">
+              <i class="fab fa-github group-hover:scale-110 transition-transform"></i>
+            </a>
+        </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Modal için geçici çözüm -->
+    <div id="modal" class="hidden"></div>
+    <button id="close-modal" class="hidden"></button>
+    <iframe id="reader-frame" class="hidden"></iframe>
+  </div>
+
+  <!-- Şifre Değiştirme Modalı -->
+  <div id="change-password-modal" class="fixed inset-0 z-50 flex items-center justify-center hidden" style="background: linear-gradient(45deg, rgba(0,0,0,0.7), rgba(118,75,162,0.3)) !important;">
+    <div class="w-full max-w-md mx-auto glass-strong rounded-3xl shadow-2xl p-8 relative border border-white/20">
+      <button id="close-change-password-modal" class="absolute top-4 right-4 w-10 h-10 bg-red-500/20 hover:bg-red-500 text-white rounded-xl flex items-center justify-center transition-all duration-300 group">
+        <i class="fas fa-times group-hover:scale-110 transition-transform"></i>
+      </button>
+      
+      <div class="mb-8 text-center">
+        <div class="w-20 h-20 bg-gradient-to-br from-green-400 to-teal-500 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
+          <i class="fas fa-shield-alt text-white text-2xl"></i>
+        </div>
+        <h2 class="text-3xl font-bold bg-gradient-to-r from-green-400 to-teal-500 bg-clip-text text-transparent mb-2">Şifre Değiştir</h2>
+        <p class="modal-text-secondary text-sm font-medium">Güvenliğiniz için güçlü bir şifre seçin</p>
+      </div>
+      
+      <form id="change-password-form" class="space-y-6">
+        <div class="space-y-4">
+          <div class="relative">
+            <label for="current-password" class="block text-sm font-semibold modal-text-primary mb-2">
+              <i class="fas fa-lock mr-2"></i>Mevcut Şifre
+            </label>
+            <input id="current-password" type="password" required class="w-full modern-input rounded-xl px-5 py-4 focus:outline-none text-gray-800 font-medium placeholder-gray-500 bg-white" placeholder="Mevcut şifrenizi girin">
+          </div>
+          
+          <div class="relative">
+            <label for="new-password" class="block text-sm font-semibold modal-text-primary mb-2">
+              <i class="fas fa-key mr-2"></i>Yeni Şifre
+            </label>
+            <input id="new-password" type="password" required class="w-full modern-input rounded-xl px-5 py-4 focus:outline-none text-gray-800 font-medium placeholder-gray-500 bg-white" placeholder="Yeni şifrenizi girin">
+            <p class="text-xs modal-text-muted mt-2 flex items-center gap-1">
+              <i class="fas fa-info-circle text-xs"></i>
+              En az 6 karakter olmalı
+            </p>
+          </div>
+          
+          <div class="relative">
+            <label for="confirm-new-password" class="block text-sm font-semibold modal-text-primary mb-2">
+              <i class="fas fa-check-circle mr-2"></i>Yeni Şifre (Tekrar)
+            </label>
+            <input id="confirm-new-password" type="password" required class="w-full modern-input rounded-xl px-5 py-4 focus:outline-none text-gray-800 font-medium placeholder-gray-500 bg-white" placeholder="Yeni şifrenizi tekrar girin">
+          </div>
+        </div>
+        
+        <div id="password-error" class="hidden text-red-300 text-sm bg-red-500/20 p-4 rounded-xl border border-red-400/30"></div>
+        <div id="password-success" class="hidden text-green-300 text-sm bg-green-500/20 p-4 rounded-xl border border-green-400/30"></div>
+        
+        <div class="flex gap-4 pt-2">
+          <button type="button" id="cancel-password-change" class="flex-1 glass modal-text-primary font-semibold py-4 rounded-xl hover:bg-white/20 transition-all duration-300">
+            <i class="fas fa-times mr-2"></i>İptal
+          </button>
+          <button type="submit" class="flex-1 btn-gradient-success modal-text-primary font-bold py-4 rounded-xl">
+            <i class="fas fa-shield-alt mr-2"></i>Şifreyi Değiştir
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Profil Modalı -->
+  <div id="profile-modal" class="fixed inset-0 z-50 flex items-center justify-center hidden" style="background: linear-gradient(45deg, rgba(0,0,0,0.7), rgba(102,126,234,0.3)) !important;">
+    <div class="w-full max-w-md mx-auto glass-strong rounded-3xl shadow-2xl p-6 relative border border-white/20">
+      <button id="close-profile-modal" class="absolute top-4 right-4 w-10 h-10 bg-red-500/20 hover:bg-red-500 text-white rounded-xl flex items-center justify-center transition-all duration-300 group">
+        <i class="fas fa-times group-hover:scale-110 transition-transform"></i>
+      </button>
+      
+      <div class="mb-6 text-center">
+        <div class="relative inline-block mb-3">
+          <div class="w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center mx-auto shadow-lg">
+            <i class="fas fa-user text-white text-xl"></i>
+          </div>
+          <div class="absolute -bottom-1 -right-1 w-6 h-6 bg-gradient-to-r from-green-400 to-teal-500 rounded-full flex items-center justify-center shadow-lg">
+            <i class="fas fa-crown text-white text-xs"></i>
+          </div>
+        </div>
+        <h2 class="text-2xl font-bold bg-gradient-to-r from-yellow-300 to-orange-300 bg-clip-text text-transparent mb-2">Profilim</h2>
+        <p class="modal-text-secondary text-xs font-medium">Hesap bilgilerinizi görüntüleyin ve düzenleyin</p>
+      </div>
+      
+      <form id="profile-form" class="space-y-4">
+        <div class="space-y-3">
+          <div class="relative">
+            <label for="profile-name" class="block text-xs font-semibold modal-text-primary mb-1">
+              <i class="fas fa-user mr-1"></i>Ad Soyad
+            </label>
+            <input id="profile-name" type="text" class="w-full modern-input rounded-lg px-3 py-2 focus:outline-none text-gray-800 font-medium placeholder-gray-500 text-sm bg-white" placeholder="Adınız ve Soyadınız">
+          </div>
+          
+          <div class="relative">
+            <label for="profile-email" class="block text-xs font-semibold modal-text-primary mb-1">
+              <i class="fas fa-envelope mr-1"></i>E-posta
+            </label>
+            <input id="profile-email" type="email" class="w-full modern-input rounded-lg px-3 py-2 text-gray-600 bg-gray-100 text-sm" placeholder="E-posta adresiniz" readonly>
+            <p class="text-xs modal-text-muted mt-1 flex items-center gap-1">
+              <i class="fas fa-lock text-xs"></i>
+              E-posta adresi değiştirilemez
+            </p>
+        </div>
+        
+          <div class="relative">
+            <label for="profile-join-date" class="block text-xs font-semibold modal-text-primary mb-1">
+              <i class="fas fa-calendar mr-1"></i>Üyelik Tarihi
+            </label>
+            <input id="profile-join-date" type="text" class="w-full modern-input rounded-lg px-3 py-2 text-gray-600 bg-gray-100 text-sm" readonly>
+          </div>
+        </div>
+        
+        <div id="profile-error" class="hidden text-red-300 text-sm bg-red-500/20 p-4 rounded-xl border border-red-400/30"></div>
+        <div id="profile-success" class="hidden text-green-300 text-sm bg-green-500/20 p-4 rounded-xl border border-green-400/30"></div>
+        
+        <div class="flex gap-3 pt-2">
+          <button type="button" id="cancel-profile-edit" class="flex-1 glass modal-text-primary font-semibold py-2 rounded-lg hover:bg-white/20 transition-all duration-300 text-sm">
+            <i class="fas fa-times mr-1"></i>İptal
+          </button>
+          <button type="submit" class="flex-1 btn-gradient-primary modal-text-primary font-bold py-2 rounded-lg text-sm">
+            <i class="fas fa-save mr-1"></i>Kaydet
+          </button>
+        </div>
+      </form>
+      
+      <div class="border-t border-white/20 mt-4 pt-4">
+        <h3 class="text-lg font-bold modal-text-primary mb-3 flex items-center gap-2">
+          <i class="fas fa-chart-line text-yellow-400"></i>
+          İstatistikler
+        </h3>
+        <div class="grid grid-cols-2 gap-3">
+          <div class="text-center p-3 glass rounded-xl border border-white/20">
+            <div class="w-8 h-8 bg-gradient-to-r from-blue-400 to-purple-500 rounded-lg flex items-center justify-center mx-auto mb-2">
+              <i class="fas fa-bookmark text-white text-sm"></i>
+            </div>
+            <div class="text-xl font-bold modal-text-primary mb-1" id="saved-books-count">0</div>
+            <div class="text-xs modal-text-secondary font-medium">Kaydedilen Kitap</div>
+          </div>
+          <div class="text-center p-3 glass rounded-xl border border-white/20">
+            <div class="w-8 h-8 bg-gradient-to-r from-green-400 to-teal-500 rounded-lg flex items-center justify-center mx-auto mb-2">
+              <i class="fas fa-clock text-white text-sm"></i>
+            </div>
+            <div class="text-xl font-bold modal-text-primary mb-1" id="reading-time">0</div>
+            <div class="text-xs modal-text-secondary font-medium">Okuma Saati</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hakkında Modalı -->
+  <div id="about-modal" class="fixed inset-0 z-50 flex items-center justify-center hidden overflow-y-auto" style="background: linear-gradient(45deg, rgba(0,0,0,0.8), rgba(102,126,234,0.4)) !important;">
+    <div class="w-full max-w-2xl mx-auto glass-strong rounded-3xl shadow-2xl p-6 md:p-8 relative border border-white/20 animate-fadeIn m-4 my-8 max-h-[90vh] overflow-y-auto">
+      <button id="close-about-modal" class="absolute top-4 right-4 w-10 h-10 bg-red-500/20 hover:bg-red-500 text-white rounded-xl flex items-center justify-center transition-all duration-300 group">
+        <i class="fas fa-times group-hover:scale-110 transition-transform"></i>
+      </button>
+      
+      <!-- Başlık Kısmı -->
+      <div class="text-center mb-8">
+        <div class="relative inline-block mb-4">
+          <div class="w-20 h-20 bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center mx-auto shadow-lg">
+            <i class="fas fa-book-open text-white text-2xl"></i>
+          </div>
+          <div class="absolute -bottom-2 -right-2 w-8 h-8 bg-gradient-to-r from-green-400 to-teal-500 rounded-full flex items-center justify-center shadow-lg">
+            <i class="fas fa-heart text-white text-sm"></i>
+          </div>
+        </div>
+        <h2 class="text-3xl font-bold bg-gradient-to-r from-yellow-300 to-orange-300 bg-clip-text text-transparent mb-2">
+          Neden OMCN E-Kitap?
+        </h2>
+        <p class="modal-text-secondary text-lg font-medium">Okumak istediğiniz kitapları saniyeler içinde bulun</p>
+      </div>
+
+             <!-- İstatistikler -->
+       <div class="grid grid-cols-3 gap-2 md:gap-4 mb-6 md:mb-8">
+         <div class="text-center p-3 md:p-4 glass rounded-xl border border-white/20">
+           <div class="text-xl md:text-2xl font-bold modal-text-primary mb-1">10K+</div>
+           <div class="text-xs modal-text-secondary font-medium">Kitap Arşivi</div>
+         </div>
+         <div class="text-center p-3 md:p-4 glass rounded-xl border border-white/20">
+           <div class="text-xl md:text-2xl font-bold modal-text-primary mb-1">5K+</div>
+           <div class="text-xs modal-text-secondary font-medium">Aktif Kullanıcı</div>
+         </div>
+         <div class="text-center p-3 md:p-4 glass rounded-xl border border-white/20">
+           <div class="text-xl md:text-2xl font-bold modal-text-primary mb-1">50+</div>
+           <div class="text-xs modal-text-secondary font-medium">Kategori</div>
+         </div>
+       </div>
+
+      <!-- Ana Metin -->
+      <div class="space-y-6 mb-8">
+        <div class="text-center">
+          <p class="modal-text-secondary text-lg leading-relaxed">
+            📚 Okumak istediğiniz kitabı bulmak artık <span class="font-bold text-yellow-300">dakikalar değil, saniyeler</span> alıyor.
+          </p>
+        </div>
+
+        <!-- Özellikler -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="flex items-start gap-3 p-4 glass rounded-xl border border-white/10">
+            <div class="w-10 h-10 bg-gradient-to-r from-blue-400 to-purple-500 rounded-lg flex items-center justify-center flex-shrink-0">
+              <i class="fas fa-search text-white text-sm"></i>
+            </div>
+            <div>
+              <h3 class="modal-text-primary font-semibold mb-1">Akıllı Arama</h3>
+              <p class="modal-text-secondary text-sm">AI destekli arama ile doğru kitabı hemen bulun</p>
+            </div>
+          </div>
+          
+          <div class="flex items-start gap-3 p-4 glass rounded-xl border border-white/10">
+            <div class="w-10 h-10 bg-gradient-to-r from-green-400 to-teal-500 rounded-lg flex items-center justify-center flex-shrink-0">
+              <i class="fas fa-bookmark text-white text-sm"></i>
+            </div>
+            <div>
+              <h3 class="modal-text-primary font-semibold mb-1">Kişisel Kütüphane</h3>
+              <p class="modal-text-secondary text-sm">Favori kitaplarınızı kaydedin, düzenleyin</p>
+            </div>
+          </div>
+          
+          <div class="flex items-start gap-3 p-4 glass rounded-xl border border-white/10">
+            <div class="w-10 h-10 bg-gradient-to-r from-orange-400 to-red-500 rounded-lg flex items-center justify-center flex-shrink-0">
+              <i class="fas fa-bolt text-white text-sm"></i>
+            </div>
+            <div>
+              <h3 class="modal-text-primary font-semibold mb-1">Hızlı Erişim</h3>
+              <p class="modal-text-secondary text-sm">Kitaplara PDF linklerle anında ulaşın</p>
+            </div>
+          </div>
+          
+          <div class="flex items-start gap-3 p-4 glass rounded-xl border border-white/10">
+            <div class="w-10 h-10 bg-gradient-to-r from-purple-400 to-pink-500 rounded-lg flex items-center justify-center flex-shrink-0">
+              <i class="fas fa-mobile-alt text-white text-sm"></i>
+            </div>
+            <div>
+              <h3 class="modal-text-primary font-semibold mb-1">Mobil Uyumlu</h3>
+              <p class="modal-text-secondary text-sm">Her cihazdan sorunsuz kullanım</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sosyal Kanıt -->
+        <div class="text-center p-6 bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-xl border border-purple-400/30">
+          <div class="flex justify-center mb-3">
+            <div class="flex text-yellow-400">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+            </div>
+          </div>
+          <p class="modal-text-secondary italic">
+            "OMCN E-Kitap ile araştırmalarım için kitap bulmak çok kolaylaştı. 
+            Özellikle AI arama özelliği harika!" 
+          </p>
+          <p class="modal-text-muted text-sm mt-2">- Ömer C., Üniversite Öğrencisi</p>
+        </div>
+      </div>
+
+      <!-- Call to Action -->
+      <div class="flex flex-col sm:flex-row gap-3">
+        <button onclick="document.getElementById('about-modal').classList.add('hidden'); document.getElementById('search-input').focus();" 
+                class="flex-1 btn-gradient-primary modal-text-primary font-bold py-4 rounded-xl transition-all duration-300 hover:scale-105">
+          <i class="fas fa-search mr-2"></i>Hemen Kitap Ara
+        </button>
+        <button onclick="document.getElementById('library-btn').click(); document.getElementById('about-modal').classList.add('hidden');" 
+                class="flex-1 glass text-white font-semibold py-4 rounded-xl hover:bg-white/20 transition-all duration-300">
+          <i class="fas fa-bookmark mr-2"></i>Kütüphanemi Gör
+        </button>
+      </div>
+
+      <!-- Alt Bilgi -->
+      <div class="text-center mt-6 pt-6 border-t border-white/20">
+        <p class="text-white/60 text-sm">
+          <i class="fas fa-code mr-1"></i>
+          2025 yılında ❤️ ile geliştirildi
+        </p>
+      </div>
+    </div>
+  </div>
+
+    <!-- JavaScript dosyalarını doğru sırada yükle -->
+  <script>
+    // Global debug log
+    console.log('✅ OMCN E-Kitap Loading Scripts...');
+    
+    // Plugin hatasını önlemek için placeholder tanımla
+    if (typeof window.plugin === 'undefined') {
+      window.plugin = function() {
+        console.warn('⚠️ Plugin function placeholder çağrıldı');
+        return {};
+      };
+    }
+  </script>
+
+  <!-- AI Arama Bileşeni -->
+  <div class="glass-strong rounded-xl p-6 mx-4 md:mx-auto max-w-4xl mt-8 mb-12 hidden">
+    <div class="text-center mb-6">
+      <h2 class="text-2xl md:text-3xl font-bold text-white mb-2">🤖 AI Destekli Akıllı Arama</h2>
+      <p class="text-white/90">Doğal dilde arama yapın, yapay zeka sizin için en uygun kitapları bulsun</p>
+    </div>
+    
+    <div class="relative">
+      <input type="text" 
+             id="ai-search-input-bottom"
+             class="modern-input w-full px-6 py-4 rounded-xl text-lg text-gray-800 bg-white/90"
+             placeholder="Örn: 'George Orwell kitapları ama sadece İngilizce olanlar' veya 'kısa fantastik kitaplar yüksek puan'"
+      >
+      <button onclick="performAISearch()" 
+              class="absolute right-2 top-1/2 -translate-y-1/2 btn-gradient-primary px-6 py-2 rounded-lg text-white">
+        <i class="fas fa-search mr-2"></i>Ara
+      </button>
+    </div>
+    
+    <!-- AI Öneri Sonuçları -->
+    <div id="ai-search-results" class="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <!-- Sonuçlar dinamik olarak buraya yüklenecek -->
+    </div>
+  </div>
+
+  <div id="reader" class="hidden"></div>
+
+  <!-- Önizleme Modal -->
+  <div id="preview-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+    <div class="bg-white rounded-lg w-11/12 max-w-4xl max-h-[90vh] overflow-hidden relative">
+      <!-- Modal Başlık -->
+      <div class="bg-gray-100 px-4 py-3 border-b flex justify-between items-center">
+        <h3 class="text-xl font-semibold text-gray-800">Kitap Önizleme</h3>
+        <button onclick="closePreviewModal()" class="text-gray-600 hover:text-gray-800">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+      <!-- Modal İçerik -->
+      <div id="preview-content" class="p-6 overflow-y-auto max-h-[calc(90vh-8rem)]">
+        <!-- Yükleniyor Göstergesi -->
+        <div id="preview-loading" class="flex items-center justify-center py-12">
+          <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Gelişmiş Loading Göstergesi -->
+  <div id="loading" class="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center hidden z-50">
+    <div class="glass-strong p-8 rounded-2xl text-center">
+      <div class="relative mb-4">
+        <div class="w-16 h-16 mx-auto">
+          <div class="absolute inset-0 border-4 border-purple-200 rounded-full"></div>
+          <div class="absolute inset-0 border-4 border-transparent border-t-purple-500 rounded-full animate-spin"></div>
+          <div class="absolute inset-2 border-4 border-transparent border-t-pink-500 rounded-full animate-spin animate-reverse" style="animation-duration: 1.5s;"></div>
+        </div>
+      </div>
+      <p class="text-white font-semibold text-lg mb-2">Kitaplar Yükleniyor...</p>
+      <p class="text-white/70 text-sm">En iyi sonuçları getiriyoruz ✨</p>
+    </div>
+  </div>
+
+  <!-- Profesyonel Footer -->
+  <footer class="glass-strong mt-12 py-12 px-6">
+    <div class="max-w-6xl mx-auto">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <!-- Brand -->
+        <div class="md:col-span-2">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center">
+              <i class="fas fa-book-open text-white text-xl"></i>
+            </div>
+            <div>
+              <h3 class="text-xl font-bold text-white">OMCN E-Kitap</h3>
+              <p class="text-white/70 text-sm">Dijital Kütüphane</p>
+            </div>
+          </div>
+          <p class="text-white/80 mb-4 leading-relaxed">
+            Binlerce kitaba saniyeler içinde ulaşın. AI destekli arama sistemi ile aradığınız kitabı kolayca bulun, kişisel kütüphanenizi oluşturun.
+          </p>
+          <div class="flex gap-3">
+            <div class="w-10 h-10 bg-white/10 hover:bg-white/20 rounded-lg flex items-center justify-center cursor-pointer transition-all duration-300 hover:scale-110">
+              <i class="fab fa-github text-white"></i>
+            </div>
+            <div class="w-10 h-10 bg-white/10 hover:bg-white/20 rounded-lg flex items-center justify-center cursor-pointer transition-all duration-300 hover:scale-110">
+              <i class="fab fa-twitter text-white"></i>
+            </div>
+            <div class="w-10 h-10 bg-white/10 hover:bg-white/20 rounded-lg flex items-center justify-center cursor-pointer transition-all duration-300 hover:scale-110">
+              <i class="fab fa-discord text-white"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hızlı Linkler -->
+        <div>
+          <h4 class="text-white font-semibold mb-4">Hızlı Erişim</h4>
+          <ul class="space-y-2">
+            <li><a href="#" onclick="document.getElementById('search-input').focus()" class="text-white/70 hover:text-white transition-colors">🔍 Kitap Ara</a></li>
+            <li><a href="#" onclick="document.getElementById('library-btn').click()" class="text-white/70 hover:text-white transition-colors">📚 Kütüphanem</a></li>
+            <li><a href="#" onclick="document.getElementById('about-btn').click()" class="text-white/70 hover:text-white transition-colors">ℹ️ Hakkında</a></li>
+            <li><a href="#" onclick="document.getElementById('profile-btn').click()" class="text-white/70 hover:text-white transition-colors">👤 Profil</a></li>
+          </ul>
+        </div>
+
+        <!-- İstatistikler -->
+        <div>
+          <h4 class="text-white font-semibold mb-4">Platform Stats</h4>
+          <div class="space-y-3">
+            <div class="flex items-center gap-2">
+              <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+              <span class="text-white/70 text-sm">10K+ Kitap</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <div class="w-2 h-2 bg-blue-400 rounded-full animate-pulse" style="animation-delay: 0.5s;"></div>
+              <span class="text-white/70 text-sm">5K+ Kullanıcı</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <div class="w-2 h-2 bg-purple-400 rounded-full animate-pulse" style="animation-delay: 1s;"></div>
+              <span class="text-white/70 text-sm">50+ Kategori</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <div class="w-2 h-2 bg-yellow-400 rounded-full animate-pulse" style="animation-delay: 1.5s;"></div>
+              <span class="text-white/70 text-sm">7/24 Erişim</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Alt Çizgi -->
+      <div class="border-t border-white/20 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+        <div class="text-white/60 text-sm text-center md:text-left">
+          <p>&copy; 2025 OMCN E-Kitap Platformu. Tüm hakları saklıdır.</p>
+          <p class="mt-1">❤️ ile Türkiye'de geliştirildi</p>
+        </div>
+        <div class="flex items-center gap-4 text-white/60 text-sm">
+          <span>Versiyon: 2.1.0</span>
+          <span>•</span>
+          <span>Son Güncelleme: Ocak 2025</span>
+          <span>•</span>
+          <div class="flex items-center gap-1">
+            <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+            <span>Çevrimiçi</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Ekstra Animasyon Stilleri -->
+  <style>
+    @keyframes reverse {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(-360deg); }
+    }
+    .animate-reverse {
+      animation-direction: reverse;
+    }
+    
+    /* Smooth Scrolling */
+    html {
+      scroll-behavior: smooth;
+    }
+    
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+    }
+
+    /* Mobile Menu Animations */
+    .mobile-menu-open {
+      transform: translateX(0) !important;
+    }
+  </style>
+
+  <!-- Mobile Menu JavaScript -->
+  <script>
+    // Mobile Menu Functions
+    function openMobileMenu() {
+      const mobileMenu = document.getElementById('mobile-menu');
+      const menuPanel = mobileMenu.querySelector('div:last-child');
+      
+      mobileMenu.classList.remove('hidden');
+      
+      setTimeout(() => {
+        menuPanel.classList.add('mobile-menu-open');
+      }, 10);
+    }
+
+    function closeMobileMenu() {
+      const mobileMenu = document.getElementById('mobile-menu');
+      const menuPanel = mobileMenu.querySelector('div:last-child');
+      
+      menuPanel.classList.remove('mobile-menu-open');
+      
+      setTimeout(() => {
+        mobileMenu.classList.add('hidden');
+      }, 300);
+    }
+
+    // Mobile Menu Button Event Listener
+    document.addEventListener('DOMContentLoaded', function() {
+      const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+      if (mobileMenuBtn) {
+        mobileMenuBtn.addEventListener('click', openMobileMenu);
+      }
+    });
+  </script>
+</body>
+</html> 
